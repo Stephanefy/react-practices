@@ -1,0 +1,15 @@
+{
+    "name": "react-practices",
+    "private": true,
+    "version": "0.1.0",
+    "workspaces": [
+      "apps/*",
+      "packages/*"
+    ],
+    "scripts": {
+      "build": "npm run -ws build",
+      "dev:tenzies": "npm run -w tenzies dev",
+      "lint": "npm run -ws lint",
+      "preview": "npm run -ws preview"
+    }
+  }
