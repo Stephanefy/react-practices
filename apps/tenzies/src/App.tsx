@@ -75,12 +75,12 @@ function App() {
         </p>
         <div className="dice-board">
           <div className="row-1">
-            {dice.slice(0, 5).map((d, i) => (
+            {dice.slice(0, 5).map((d) => (
               <Dice dice={d} freezeDice={freezeDice} />
             ))}
           </div>
           <div className="row-2">
-            {dice.slice(6).map((d, i) => (
+            {dice.slice(6).map((d) => (
               <Dice dice={d} freezeDice={freezeDice} />
             ))}
           </div>

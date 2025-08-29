@@ -11,5 +11,11 @@
       "dev:tenzies": "npm run -w tenzies dev",
       "lint": "npm run -ws lint",
       "preview": "npm run -ws preview"
+    },
+    "overrides": {
+      "react": "latest",
+      "react-dom": "latest",
+      "@types/react": "latest",
+      "@types/react-dom": "latest"
     }
   }

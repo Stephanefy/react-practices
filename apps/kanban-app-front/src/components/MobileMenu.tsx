@@ -1,16 +1,16 @@
-import { FC, useContext } from "react";
-import IconBoard from "../assets/icon-board.svg";
+import { FC, useContext, ReactNode, useEffect} from "react";
 import Switchbuton from "./Switchbutton";
-import { BoardActionKind, BoardContext } from "../context/BoardContext";
-import data from "../assets/data.json";
+import { BoardActionKind, useBoardContext } from "../context/BoardContext";
 import { ModalActionType, ModalContext } from "../context/ModalContext";
+import { AppContext } from "../context/AppContext";
 
 interface Props {}
 
-const MobileMenu: FC<Props> = (props): JSX.Element => {
-  const { state, dispatch } = useContext(BoardContext);
+const MobileMenu: FC<Props> = (props): ReactNode => {
+  const { state, dispatch } = useBoardContext();
+  const { boards } = useContext(AppContext);
   const { dispatch: dispatchModal } = useContext(ModalContext);
-  const { boards } = data;
+  
 
   console.log(state);
 

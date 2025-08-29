@@ -3,7 +3,7 @@ import IconBoard from "../assets/icon-board.svg";
 import SwitchButton from "./Switchbutton";
 import IconHideSideBar from "../assets/icon-hide-sidebar.svg";
 import IconShowSideBar from "../assets/icon-show-sidebar.svg";
-import { BoardContext } from "../context/BoardContext";
+import { useBoardContext } from "../context/BoardContext";
 import { BoardActionKind } from "../context/BoardContext";
 import { nanoid } from "nanoid";
 import { AppContext, Board } from "../context/AppContext";
@@ -17,7 +17,9 @@ type Props = {
 
 const Sidebar = (props: Props) => {
   const { boards, setBoards, setCurrentBoard } = useContext(AppContext);
-  const { state, dispatch } = useContext(BoardContext);
+  const { state, dispatch } = useBoardContext()
+
+  console.log("boards",boards)
 
   useEffect(() => {
     console.log("state from board context", state);

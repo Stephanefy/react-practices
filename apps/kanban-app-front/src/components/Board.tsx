@@ -1,6 +1,6 @@
 import { useContext, useRef, useState, useEffect } from "react";
 import data from "../assets/data.json";
-import { BoardActionKind, BoardContext } from "../context/BoardContext";
+import { BoardActionKind, useBoardContext } from "../context/BoardContext";
 import Kanbancard from "./Kanbancard";
 import PortalModal from "./modals/Modal";
 import { ModalActionType, ModalContext } from "../context/ModalContext";
@@ -22,7 +22,7 @@ type Props = {
 
 const Board = (props: Props) => {
   const { boards} = useContext(AppContext);
-  const { state, dispatch } = useContext(BoardContext);
+  const { state, dispatch } = useBoardContext()
   const { state: showModal, dispatch: setShowModal } = useContext(ModalContext);
 
   const boardsListRef = useRef<HTMLElement>(null);

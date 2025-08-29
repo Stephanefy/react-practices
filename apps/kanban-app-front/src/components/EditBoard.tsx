@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { ModalContext } from "../context/ModalContext";
 import DropDown from "./Dropdown";
-import { BoardContext, Column } from "../context/BoardContext";
+import { Column, useBoardContext } from "../context/BoardContext";
 import { nanoid } from "nanoid";
 
 type Props = {};
@@ -35,7 +35,7 @@ const columns = [
 
 const EditBoard = (props: Props) => {
   const { state, dispatch } = useContext(ModalContext);
-  const { state: boardState } = useContext(BoardContext);
+  const { state: boardState } = useBoardContext()
 
   const [numOfSubtasks, setNumOfSubtasks] = useState<number>(1);
   const [newColumn, setNewColumn] = useState<Column[]>(columns);

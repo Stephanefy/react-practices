@@ -1,7 +1,7 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { Column } from "./BoardContext";
-import data from "../assets/data.json";
 import { nanoid } from "nanoid";
+import { getBoards } from "../services/boardServices";
 
 export interface Board {
   id: string;
@@ -9,8 +9,11 @@ export interface Board {
   columns: Column[];
 }
 
-function getInitialBoards() {
-  return data.boards.map((board, boardIndex) => ({
+async function getInitialBoards() {
+
+  const data = await getBoards();
+
+  return data.map((board, boardIndex) => ({
     ...board,
     id: nanoid(),
     columns: board.columns.map((column, columnIndex) => ({
@@ -21,19 +24,31 @@ function getInitialBoards() {
 }
 
 export const AppContext = createContext<{
-  currentBoard: Board;
-  setCurrentBoard: (board: Board) => void;
+  currentBoard: Board | null;
+  setCurrentBoard: (board: Board | null) => void;
   boards: Board[];
   setBoards: (boards: Board[]) => void;
-}>({ currentBoard: getInitialBoards()[0], boards: [], setBoards: () => {}, setCurrentBoard: () => {} });
+}>({ currentBoard: null, boards: [], setBoards: () => {}, setCurrentBoard: () => {} });
 
 export const AppContextProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const [boards, setBoards] = useState<Board[]>(getInitialBoards());
-  const [currentBoard, setCurrentBoard] = useState<Board>(boards[0]);
+  const [boards, setBoards] = useState<Board[]>([]);
+  const [currentBoard, setCurrentBoard] = useState<Board | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    getInitialBoards().then((initial) => {
+      if (!mounted) return;
+      setBoards(initial);
+      setCurrentBoard(initial[0] ?? null);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   return (
     <AppContext.Provider value={{ currentBoard, boards, setBoards, setCurrentBoard }}>

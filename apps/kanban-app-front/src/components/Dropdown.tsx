@@ -79,7 +79,7 @@ export default function DropDown() {
                               "absolute inset-y-0 right-0 flex items-center pr-4"
                             )}
                           >
-                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                            <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
                           </span>
                         ) : null}
                       </>

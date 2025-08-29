@@ -1,5 +1,4 @@
 import { useReducer, createContext, ReactNode, useContext } from "react";
-import data from "../assets/data.json";
 import produce, { Draft } from "immer";
 import { AppContext } from "./AppContext";
 
@@ -45,7 +44,7 @@ export interface BoardAction {
 }
 
 interface BoardContextProviderProps {
-  children: JSX.Element | JSX.Element[];
+  children: ReactNode | ReactNode[];
 }
 
 
@@ -96,4 +95,11 @@ const BoardContextProvider = ({ children }: BoardContextProviderProps) => {
   );
 };
 
-export { BoardContextProvider, BoardContext };
+
+const useBoardContext = () => {
+  const ctx = useContext(BoardContext)
+  if (!ctx) throw new Error("component should be wrapeed into the board context provider")
+  return ctx;
+}
+
+export { BoardContextProvider, useBoardContext };
