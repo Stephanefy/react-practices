@@ -6,7 +6,6 @@ import ChevronDown from "../assets/icon-chevron-down.svg";
 import ChevronUp from "../assets/icon-chevron-up.svg";
 import AddTaskMobile from "../assets/icon-add-task-mobile.svg";
 import { ModalActionType, ModalContext } from "../context/ModalContext";
-import { useBoardContext } from "../context/BoardContext";
 import { AppContext } from "../context/AppContext";
 
 type Props = {};
@@ -15,8 +14,6 @@ const Navbar = (props: Props) => {
   const { currentBoard } = useContext(AppContext);
   const [showDropdown, setShowDropdown] = useState<boolean>(true);
   const { state, dispatch } = useContext(ModalContext);
-  const { state: boardState, dispatch: boardDispatch } =
-    useBoardContext();
 
   const handleShowMenuModal = () => {
     setShowDropdown(!showDropdown);
@@ -24,7 +21,7 @@ const Navbar = (props: Props) => {
     if (showDropdown) dispatch({ type: ModalActionType.MOBILEMENU });
   };
 
-  console.log(boardState);
+  console.log(currentBoard);
 
   return (
     <nav className="fixed top-0 z-[60] flex h-[96px] w-full items-center bg-white">
@@ -67,7 +64,7 @@ const Navbar = (props: Props) => {
                   <img src={AddTaskMobile} alt="add" />
                 </button>
               </li>
-              {boardState.name !== "" && (
+              {currentBoard?.name && (
                 <li className="ml-3">
                   <button
                     onClick={() => {

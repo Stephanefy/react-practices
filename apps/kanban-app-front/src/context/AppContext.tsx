@@ -1,5 +1,4 @@
 import { createContext, useState, useEffect } from "react";
-import { Column } from "./BoardContext";
 import { nanoid } from "nanoid";
 import { getBoards } from "../services/boardServices";
 
@@ -7,6 +6,51 @@ export interface Board {
   id: string;
   name: string;
   columns: Column[];
+}
+
+
+export interface SubTask {
+  id?: string;
+  readonly title: string;
+  isCompleted: boolean;
+}
+
+export interface Task {
+  id?: string;
+  title?: string;
+  description?: string;
+  status?: string;
+  subtasks?: SubTask[];
+  isCompleted?: boolean;
+}
+
+export interface Column {
+  id: string;
+  readonly name: string;
+  readonly tasks: readonly Task[];
+}
+
+export interface BoardState {
+  name: string;
+  columns: Column[];
+}
+
+
+export enum BoardActionKind {
+  PLATFORM = "PLATFORM",
+  MARKETING = "MARKETING",
+  ROADMAP = "ROADMAP",
+  NEWCOLUMN = "NEWCOLUMN",
+  DELETECOLUMN = "DELETECOLUMN",
+}
+
+export interface BoardAction {
+  type: BoardActionKind;
+  payload: {
+    name?: string;
+    columns?: Column[];
+    id?: string;
+  };
 }
 
 async function getInitialBoards() {
@@ -28,7 +72,18 @@ export const AppContext = createContext<{
   setCurrentBoard: (board: Board | null) => void;
   boards: Board[];
   setBoards: (boards: Board[]) => void;
-}>({ currentBoard: null, boards: [], setBoards: () => {}, setCurrentBoard: () => {} });
+  addColumnToCurrentBoard: (columnName: string) => void;
+  deleteColumnFromCurrentBoard: (columnId: string) => void;
+  updateCurrentBoardInBoards: (updatedBoard: Board) => void;
+}>({ 
+  currentBoard: null, 
+  boards: [], 
+  setBoards: () => {}, 
+  setCurrentBoard: () => {},
+  addColumnToCurrentBoard: () => {},
+  deleteColumnFromCurrentBoard: () => {},
+  updateCurrentBoardInBoards: () => {}
+});
 
 export const AppContextProvider = ({
   children,
@@ -50,8 +105,46 @@ export const AppContextProvider = ({
     };
   }, []);
 
+  const addColumnToCurrentBoard = (columnName: string) => {
+    if (!currentBoard) return;
+
+    const newColumn = { id: nanoid(), name: columnName, tasks: [] };
+    const updatedBoard = {
+      ...currentBoard,
+      columns: [newColumn, ...currentBoard.columns],
+    };
+
+    setCurrentBoard(updatedBoard);
+    setBoards(boards.map(b => b.id === currentBoard.id ? updatedBoard : b));
+  };
+
+  const deleteColumnFromCurrentBoard = (columnId: string) => {
+    if (!currentBoard) return;
+
+    const updatedBoard = {
+      ...currentBoard,
+      columns: currentBoard.columns.filter(col => col.id !== columnId),
+    };
+
+    setCurrentBoard(updatedBoard);
+    setBoards(boards.map(b => b.id === currentBoard.id ? updatedBoard : b));
+  };
+
+  const updateCurrentBoardInBoards = (updatedBoard: Board) => {
+    setCurrentBoard(updatedBoard);
+    setBoards(boards.map(b => b.id === updatedBoard.id ? updatedBoard : b));
+  };
+
   return (
-    <AppContext.Provider value={{ currentBoard, boards, setBoards, setCurrentBoard }}>
+    <AppContext.Provider value={{ 
+      currentBoard, 
+      boards, 
+      setBoards, 
+      setCurrentBoard,
+      addColumnToCurrentBoard,
+      deleteColumnFromCurrentBoard,
+      updateCurrentBoardInBoards
+    }}>
       {children}
     </AppContext.Provider>
   );

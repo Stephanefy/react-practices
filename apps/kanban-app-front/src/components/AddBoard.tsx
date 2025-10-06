@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { ModalContext } from "../context/ModalContext";
 import DropDown from "./Dropdown";
-import { Task } from "../context/BoardContext";
+import { Task } from "../context/AppContext";
 
 type Props = {};
 

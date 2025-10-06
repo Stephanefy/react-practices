@@ -1,6 +1,6 @@
 import { createContext, Dispatch, SetStateAction, FC, useReducer } from "react";
 import produce, { Draft } from "immer";
-import { Task } from "./BoardContext";
+import { Task } from "./AppContext";
 import { nanoid } from "nanoid";
 
 //type guards
@@ -125,7 +125,7 @@ const ModalReducer = produce((draft: ModalState, action: ModalAction): void => {
       draft.task = action.payload as Task;
       break;
     case ModalActionType.CHANGE_COMPLETION:
-      draft.task!.subtasks!.map((task) => {
+      draft.task!.subtasks!.map((task: Task) => {
         console.log("kfkdsjlf", action.payload);
         console.log("task.id", task.id);
 

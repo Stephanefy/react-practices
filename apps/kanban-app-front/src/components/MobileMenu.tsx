@@ -1,18 +1,16 @@
 import { FC, useContext, ReactNode, useEffect} from "react";
 import Switchbuton from "./Switchbutton";
-import { BoardActionKind, useBoardContext } from "../context/BoardContext";
 import { ModalActionType, ModalContext } from "../context/ModalContext";
 import { AppContext } from "../context/AppContext";
 
 interface Props {}
 
 const MobileMenu: FC<Props> = (props): ReactNode => {
-  const { state, dispatch } = useBoardContext();
-  const { boards } = useContext(AppContext);
+  const { boards, currentBoard, setCurrentBoard } = useContext(AppContext);
   const { dispatch: dispatchModal } = useContext(ModalContext);
   
 
-  console.log(state);
+  console.log(currentBoard);
 
   return (
     <div className="absolute top-64 left-1/2 w-[234px] -translate-x-1/2 -translate-y-1/2 transform rounded-lg bg-white pr-3">
@@ -25,22 +23,17 @@ const MobileMenu: FC<Props> = (props): ReactNode => {
           <li
             key={index}
             className={`group relative py-3 pl-3 text-primary-gray ${
-              state.name === boards[index].name
+              currentBoard?.name === boards[index].name
                 ? "hover:text-white"
                 : "hover:text-primary"
             }`}
           >
-            {state.name === boards[index].name && (
+            {currentBoard?.name === boards[index].name && (
               <div className="absolute top-1 -left-3 -z-30 h-[40px] w-full rounded-r-full bg-primary" />
             )}
             <button
               className="flex items-center justify-between"
-              onClick={() =>
-                dispatch({
-                  type: BoardActionKind.PLATFORM,
-                  payload: boards[index],
-                })
-              }
+              onClick={() => setCurrentBoard(boards[index])}
             >
               <svg
                 width="16"
@@ -48,7 +41,7 @@ const MobileMenu: FC<Props> = (props): ReactNode => {
                 xmlns="http://www.w3.org/2000/svg"
                 className={` 
                 ${
-                  state.name === boards[index].name
+                  currentBoard?.name === boards[index].name
                     ? "fill-white"
                     : "fill-primary-gray group-hover:fill-primary"
                 }
@@ -58,7 +51,7 @@ const MobileMenu: FC<Props> = (props): ReactNode => {
               </svg>
               <span
                 className={`ml-4 transition duration-75 ease-in hover:font-bold ${
-                  state.name === boards[index].name && "font-bold text-white"
+                  currentBoard?.name === boards[index].name && "font-bold text-white"
                 }`}
               >
                 {board.name}

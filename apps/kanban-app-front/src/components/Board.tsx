@@ -1,6 +1,5 @@
 import { useContext, useRef, useState, useEffect } from "react";
 import data from "../assets/data.json";
-import { BoardActionKind, useBoardContext } from "../context/BoardContext";
 import Kanbancard from "./Kanbancard";
 import PortalModal from "./modals/Modal";
 import { ModalActionType, ModalContext } from "../context/ModalContext";
@@ -21,8 +20,7 @@ type Props = {
 };
 
 const Board = (props: Props) => {
-  const { boards} = useContext(AppContext);
-  const { state, dispatch } = useBoardContext()
+  const { currentBoard, addColumnToCurrentBoard } = useContext(AppContext);
   const { state: showModal, dispatch: setShowModal } = useContext(ModalContext);
 
   const boardsListRef = useRef<HTMLElement>(null);
@@ -37,66 +35,39 @@ const Board = (props: Props) => {
 
       setBoardingListHeight(boardsListRef?.current?.offsetHeight);
     }
-  }, [state]);
+  }, [currentBoard?.columns]);
 
   const { boards: jsonBoards } = data;
 
 
   const addNewColumn = () => {
-    dispatch({
-      type: BoardActionKind.NEWCOLUMN,
-      payload: {
-        name: "New Column",
-        columns: [
-          { id: nanoid(), name: "New Column", tasks: [] },
-          ...state.columns,
-        ],
-      },
-    })
+    addColumnToCurrentBoard("New Column");
   };
 
   let currentOpenModal;
 
-  // if (showModal.showModal === 1) {
-  //   currentOpenModal = <MobileMenu />
-  // } else if (showModal.showModal === 2) {
-  //   currentOpenModal = <TaskDetails />
-  // }
-
-  // let mobileMenuisOpenModal = showModal.showModal === 1 && true
-  // let taskDetailsIsOpenModal = showModal.showModal === 2 && true
-  // let addTaskIsOIpen = showModal.showModal === 3 && true
-  // let editTaskIsOpen = showModal.showModal === 4 && true
-  // let addBoardIsOpen = showModal.showModal === 5 && true
-  // let editBoardIsOpen = showModal.showModal === 6 && true
-  // let addColumnIsOpen = showModal.showModal === 7 && true
-  // let deleteTaskIsOpen = showModal.showModal === 8 && true
-  // let deleteBoardIsOpen = showModal.showModal === 9 && true
-
-  console.log("boards", boards);
   return (
     <>
       <div
         className={clsx(
           "flex flex-1 min-h-screen overflow-hidden bg-secondary-gray text-5xl md:px-16 pt-[150px] pb-16",
           {
-            "items-start": state.columns.length > 0,
-            "items-center": state.columns.length === 0,
-            "justify-center": state.columns.length === 0,
-            "justify-start": state.columns.length > 0,
+            "items-start": (currentBoard?.columns.length ?? 0) > 0,
+            "items-center": (currentBoard?.columns.length ?? 0) === 0,
+            "justify-center": (currentBoard?.columns.length ?? 0) === 0,
+            "justify-start": (currentBoard?.columns.length ?? 0) > 0,
             "-translate-x-52 transform duration-300 ease-in": props.hideSideBar,
             "translate-x-0 transform duration-300 ease-in": !props.hideSideBar,
           }
         )}
       >
-        {/* <p className='text-lg text-primary-gray'>This board is empty create a new column to get started</p> */}
         <div
           className={`grid  grid-flow-col p-4 lg:p-0 ${
-            state.columns.length && "overflow-auto"
+            currentBoard?.columns.length && "overflow-auto"
           }`}
         >
-          {state.columns.length > 0 ? (
-            state.columns.map((column, index) => (
+          {(currentBoard?.columns.length ?? 0) > 0 ? (
+            currentBoard?.columns.map((column, index) => (
               <Column key={column.id} column={column} index={index} ref={boardsListRef} />
             ))
           ) : (
@@ -114,7 +85,7 @@ const Board = (props: Props) => {
               </div>
             </div>
           )}
-          {state.columns.length > 0 ? (
+          {(currentBoard?.columns.length ?? 0) > 0 ? (
             <section className="mr-4 flex w-72 min-h-screen items-center justify-center rounded-lg bg-[#E9EFFA] pb-4">
               <button
                 className="text-lg"

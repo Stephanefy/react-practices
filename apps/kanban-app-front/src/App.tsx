@@ -3,7 +3,6 @@ import "./App.css";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import Board from "./components/Board";
-import { BoardContextProvider } from "./context/BoardContext";
 import { ModalContextProvider } from "./context/ModalContext";
 import { AppContextProvider } from "./context/AppContext";
 import { ErrorBoundary } from "./components/ErrorBoundary";
@@ -17,20 +16,18 @@ function App() {
       <ErrorBoundary>
         <AppContextProvider>
           <ModalContextProvider>
-            <BoardContextProvider>
-              <Navbar />
-              <main className="relative flex min-h-screen">
-                <Sidebar
-                  sidebarHeight={sidebarHeight}
-                  setHideSidebar={setHideSidebar}
-                  hideSidebar={hideSidebar}
-                />
-                <Board
-                  setSidebarHeight={setSidebarHeight}
-                  hideSideBar={hideSidebar}
-                />
-              </main>
-            </BoardContextProvider>
+            <Navbar />
+            <main className="relative flex min-h-screen">
+              <Sidebar
+                sidebarHeight={sidebarHeight}
+                setHideSidebar={setHideSidebar}
+                hideSidebar={hideSidebar}
+              />
+              <Board
+                setSidebarHeight={setSidebarHeight}
+                hideSideBar={hideSidebar}
+              />
+            </main>
           </ModalContextProvider>
         </AppContextProvider>
       </ErrorBoundary>

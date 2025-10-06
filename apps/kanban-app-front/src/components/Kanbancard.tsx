@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Column, Task, SubTask } from "../context/BoardContext";
+import { Column, Task, SubTask } from "../context/AppContext";
 import { ModalContext, ModalActionType } from "../context/ModalContext";
 import { nanoid } from "nanoid";
 

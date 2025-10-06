@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { ModalContext } from "../context/ModalContext";
 import DropDown from "./Dropdown";
-import { BoardContext, Column } from "../context/BoardContext";
+import { AppContext, Column } from "../context/AppContext";
 import { nanoid } from "nanoid";
 
 type Props = {};
@@ -35,13 +35,13 @@ const columns = [
 
 const DeleteBoard = (props: Props) => {
   const { state, dispatch } = useContext(ModalContext);
-  const { state: boardState } = useContext(BoardContext);
+  const { currentBoard } = useContext(AppContext);
 
   const [numOfSubtasks, setNumOfSubtasks] = useState<number>(1);
   const [newColumn, setNewColumn] = useState<Column[]>(columns);
 
   console.log(state);
-  console.log(boardState);
+  console.log(currentBoard);
 
   // TODO add controlled state to add new task in board
 
@@ -63,7 +63,7 @@ const DeleteBoard = (props: Props) => {
               id="title"
               type="text"
               readOnly
-              value={boardState.name}
+              value={currentBoard?.name}
               className="w-full rounded-md border border-primary-gray/25 font-semibold text-black placeholder:text-primary-gray/25"
               placeholder="e.g. Take coffee break"
             />

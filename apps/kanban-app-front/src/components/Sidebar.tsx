@@ -3,8 +3,6 @@ import IconBoard from "../assets/icon-board.svg";
 import SwitchButton from "./Switchbutton";
 import IconHideSideBar from "../assets/icon-hide-sidebar.svg";
 import IconShowSideBar from "../assets/icon-show-sidebar.svg";
-import { useBoardContext } from "../context/BoardContext";
-import { BoardActionKind } from "../context/BoardContext";
 import { nanoid } from "nanoid";
 import { AppContext, Board } from "../context/AppContext";
 import BoardItemLink from "./BoardItemLink";
@@ -16,14 +14,9 @@ type Props = {
 };
 
 const Sidebar = (props: Props) => {
-  const { boards, setBoards, setCurrentBoard } = useContext(AppContext);
-  const { state, dispatch } = useBoardContext()
+  const { boards, setBoards, currentBoard, setCurrentBoard } = useContext(AppContext);
 
   console.log("boards",boards)
-
-  useEffect(() => {
-    console.log("state from board context", state);
-  }, [state]);
 
   const addNewBoard = () => {
     const newBoard = { id: nanoid(), name: "New Board", columns: [] };
@@ -32,10 +25,6 @@ const Sidebar = (props: Props) => {
 
   const selectBoard = (board: Board) => {
     setCurrentBoard(board);
-    dispatch({
-      type: BoardActionKind.PLATFORM,
-      payload: { name: board.name, columns: board.columns },
-    })
   };
 
   return (
@@ -48,11 +37,6 @@ const Sidebar = (props: Props) => {
         } z-30 flex flex-col justify-between border-r-2 bg-white
         pt-[96px]
         `}
-        // style={{
-        //   height: state.columns.length
-        //     ? `calc(25rem + (${props.sidebarHeight}px))`
-        //     : "h-screen",
-        // }}
       >
         <ul className="flex-2 h-3/4 w-full pl-3">
           <h3 className="p-3 font-bold uppercase text-primary-gray">
