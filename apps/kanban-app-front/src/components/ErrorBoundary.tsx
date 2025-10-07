@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -20,9 +20,9 @@ export class ErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error("Error caught by ErrorBoundary:", error);
-    console.error("Error info:", errorInfo);
-    
+    console.error('Error caught by ErrorBoundary:', error);
+    console.error('Error info:', errorInfo);
+
     this.setState({
       error,
       errorInfo,
@@ -32,19 +32,19 @@ export class ErrorBoundary extends React.Component<
   render() {
     if (this.state.hasError) {
       return (
-        <div className="error-boundary p-4 bg-red-50 border border-red-200 rounded-lg">
-          <h2 className="text-red-800 font-semibold mb-2">
+        <div className="error-boundary rounded-lg border border-red-200 bg-red-50 p-4">
+          <h2 className="mb-2 font-semibold text-red-800">
             Something went wrong! 😅
           </h2>
           <details className="text-sm text-red-700">
-            <summary className="cursor-pointer mb-2">
+            <summary className="mb-2 cursor-pointer">
               Click to see error details
             </summary>
-            <pre className="bg-red-100 p-2 rounded text-xs overflow-auto">
+            <pre className="overflow-auto rounded bg-red-100 p-2 text-xs">
               {this.state.error?.toString()}
             </pre>
             {this.state.errorInfo && (
-              <pre className="bg-red-100 p-2 rounded text-xs overflow-auto mt-2">
+              <pre className="mt-2 overflow-auto rounded bg-red-100 p-2 text-xs">
                 {this.state.errorInfo.componentStack}
               </pre>
             )}

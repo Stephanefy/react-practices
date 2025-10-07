@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 type Props = {
   value: string;
@@ -13,7 +13,7 @@ const Checkbox = ({ label, value, onChange, checked }: Props) => {
   return (
     <label>
       <input
-        className="mx-3 checked:bg-primary rounded-sm"
+        className="mx-3 rounded-sm checked:bg-primary"
         type="checkbox"
         value={value}
         onChange={onChange}

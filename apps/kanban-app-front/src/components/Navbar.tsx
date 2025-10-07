@@ -1,12 +1,12 @@
-import { useContext, useState } from "react";
-import logoDark from "../assets/logo-dark.svg";
-import logoMobile from "../assets/logo-mobile.svg";
-import VerticalElipsis from "../assets/icon-vertical-ellipsis.svg";
-import ChevronDown from "../assets/icon-chevron-down.svg";
-import ChevronUp from "../assets/icon-chevron-up.svg";
-import AddTaskMobile from "../assets/icon-add-task-mobile.svg";
-import { ModalActionType, ModalContext } from "../context/ModalContext";
-import { AppContext } from "../context/AppContext";
+import { useContext, useState } from 'react';
+import logoDark from '../assets/logo-dark.svg';
+import logoMobile from '../assets/logo-mobile.svg';
+import VerticalElipsis from '../assets/icon-vertical-ellipsis.svg';
+import ChevronDown from '../assets/icon-chevron-down.svg';
+import ChevronUp from '../assets/icon-chevron-up.svg';
+import AddTaskMobile from '../assets/icon-add-task-mobile.svg';
+import { ModalActionType, ModalContext } from '../context/ModalContext';
+import { AppContext } from '../context/AppContext';
 
 type Props = {};
 
@@ -51,7 +51,7 @@ const Navbar = (props: Props) => {
               <li className="hidden md:block">
                 <button
                   onClick={() => dispatch({ type: ModalActionType.ADDTASK })}
-                  className="rounded-full bg-primary hover:bg-secondary px-6 py-3"
+                  className="rounded-full bg-primary px-6 py-3 hover:bg-secondary"
                 >
                   +Add new task
                 </button>

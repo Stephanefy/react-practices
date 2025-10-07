@@ -1,11 +1,11 @@
-import React, { useContext, useEffect } from "react";
-import IconBoard from "../assets/icon-board.svg";
-import SwitchButton from "./Switchbutton";
-import IconHideSideBar from "../assets/icon-hide-sidebar.svg";
-import IconShowSideBar from "../assets/icon-show-sidebar.svg";
-import { nanoid } from "nanoid";
-import { AppContext, Board } from "../context/AppContext";
-import BoardItemLink from "./BoardItemLink";
+import React, { useContext, useEffect } from 'react';
+import IconBoard from '../assets/icon-board.svg';
+import SwitchButton from './Switchbutton';
+import IconHideSideBar from '../assets/icon-hide-sidebar.svg';
+import IconShowSideBar from '../assets/icon-show-sidebar.svg';
+import { nanoid } from 'nanoid';
+import { AppContext, Board } from '../context/AppContext';
+import BoardItemLink from './BoardItemLink';
 
 type Props = {
   sidebarHeight: number;
@@ -14,12 +14,13 @@ type Props = {
 };
 
 const Sidebar = (props: Props) => {
-  const { boards, setBoards, currentBoard, setCurrentBoard } = useContext(AppContext);
+  const { boards, setBoards, currentBoard, setCurrentBoard } =
+    useContext(AppContext);
 
-  console.log("boards",boards)
+  console.log('boards', boards);
 
   const addNewBoard = () => {
-    const newBoard = { id: nanoid(), name: "New Board", columns: [] };
+    const newBoard = { id: nanoid(), name: 'New Board', columns: [] };
     setBoards([...boards, newBoard]);
   };
 
@@ -32,18 +33,20 @@ const Sidebar = (props: Props) => {
       <div
         className={`relative hidden md:block ${
           !props.hideSidebar
-            ? "width-[261px] duration-300 ease-in lg:basis-1/6"
-            : "width-[261px] -translate-x-full transform duration-300 ease-in lg:basis-1/6"
-        } z-30 flex flex-col justify-between border-r-2 bg-white
-        pt-[96px]
-        `}
+            ? 'width-[261px] duration-300 ease-in lg:basis-1/6'
+            : 'width-[261px] -translate-x-full transform duration-300 ease-in lg:basis-1/6'
+        } z-30 flex flex-col justify-between border-r-2 bg-white pt-[96px]`}
       >
         <ul className="flex-2 h-3/4 w-full pl-3">
           <h3 className="p-3 font-bold uppercase text-primary-gray">
             all boards
           </h3>
-          {boards.map((board) => (
-            <BoardItemLink key={board.id} board={board} selectBoard={selectBoard} />  
+          {boards.map(board => (
+            <BoardItemLink
+              key={board.id}
+              board={board}
+              selectBoard={selectBoard}
+            />
           ))}
           <li className="py-3 text-primary-gray hover:text-primary">
             <button onClick={addNewBoard}>
@@ -74,11 +77,11 @@ const Sidebar = (props: Props) => {
       <div
         className={`fixed bottom-10 rounded-r-full bg-primary p-6 duration-300 ease-in ${
           !props.hideSidebar &&
-          "-translate-x-full transform duration-300 ease-in"
+          '-translate-x-full transform duration-300 ease-in'
         } z-50`}
       >
         <button onClick={() => props.setHideSidebar(false)}>
-          <img src={IconShowSideBar} style={{ color: "white" }} />
+          <img src={IconShowSideBar} style={{ color: 'white' }} />
         </button>
       </div>
     </>

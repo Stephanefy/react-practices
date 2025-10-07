@@ -1,7 +1,7 @@
-import { useContext, useState } from "react";
-import { ModalContext } from "../context/ModalContext";
-import DropDown from "./Dropdown";
-import { Task } from "../context/BoardContext";
+import { useContext, useState } from 'react';
+import { ModalContext } from '../context/ModalContext';
+import DropDown from './Dropdown';
+import { Task } from '../context/AppContext';
 
 type Props = {};
 
@@ -16,8 +16,8 @@ const AddTask = (props: Props) => {
   // TODO add controlled state to add new task in board
 
   return (
-    <div className="absolute top-48 left-1/2 w-11/12 -translate-x-1/2 -translate-y-24 transform rounded-lg bg-white pr-3">
-      <div className="px-8  py-4">
+    <div className="absolute left-1/2 top-48 w-11/12 -translate-x-1/2 -translate-y-24 transform rounded-lg bg-white pr-3">
+      <div className="px-8 py-4">
         <h2 className="my-2 text-2xl font-bold text-primary-black">
           Add New Task
         </h2>
@@ -55,7 +55,7 @@ const AddTask = (props: Props) => {
               Subtasks
             </h3>
             <div>
-              {[...Array(numOfSubtasks).keys()].map((i) => (
+              {[...Array(numOfSubtasks).keys()].map(i => (
                 <div key={i} className="my-4 flex">
                   <input
                     id="title"
@@ -67,7 +67,7 @@ const AddTask = (props: Props) => {
                     type="button"
                     onClick={() => setNumOfSubtasks(numOfSubtasks - 1)}
                   >
-                    <span className="mx-2  inline-block text-primary-gray">
+                    <span className="mx-2 inline-block text-primary-gray">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -88,7 +88,7 @@ const AddTask = (props: Props) => {
               ))}
             </div>
             <button
-              className="my-4 w-full rounded-full bg-primary/10 py-2 px-4 font-semibold text-primary"
+              className="my-4 w-full rounded-full bg-primary/10 px-4 py-2 font-semibold text-primary"
               type="button"
               onClick={() => setNumOfSubtasks(numOfSubtasks + 1)}
             >
@@ -98,7 +98,7 @@ const AddTask = (props: Props) => {
           <DropDown />
           <div>
             <button
-              className="my-4 w-full rounded-full bg-primary py-2 px-4 font-semibold text-white"
+              className="my-4 w-full rounded-full bg-primary px-4 py-2 font-semibold text-white"
               type="button"
             >
               Create Task

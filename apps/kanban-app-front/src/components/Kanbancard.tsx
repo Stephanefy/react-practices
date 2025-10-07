@@ -1,7 +1,7 @@
-import { useContext } from "react";
-import { Column, Task, SubTask } from "../context/AppContext";
-import { ModalContext, ModalActionType } from "../context/ModalContext";
-import { nanoid } from "nanoid";
+import { useContext } from 'react';
+import { Column, Task, SubTask } from '../context/AppContext';
+import { ModalContext, ModalActionType } from '../context/ModalContext';
+import { nanoid } from 'nanoid';
 
 const Kanbancard = ({ id, title, description, status, subtasks }: Task) => {
   const subtasksCount = subtasks!.reduce((acc, subtask) => {
@@ -18,7 +18,7 @@ const Kanbancard = ({ id, title, description, status, subtasks }: Task) => {
     title,
     description,
     status,
-    subtasks: subtasks!.map((task) => ({
+    subtasks: subtasks!.map(task => ({
       id: nanoid(),
       ...task,
     })),

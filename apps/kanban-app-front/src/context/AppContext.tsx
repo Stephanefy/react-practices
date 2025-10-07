@@ -1,13 +1,12 @@
-import { createContext, useState, useEffect } from "react";
-import { nanoid } from "nanoid";
-import { getBoards } from "../services/boardServices";
+import { createContext, useState, useEffect } from 'react';
+import { nanoid } from 'nanoid';
+import { getBoards } from '../services/boardServices';
 
 export interface Board {
   id: string;
   name: string;
   columns: Column[];
 }
-
 
 export interface SubTask {
   id?: string;
@@ -35,13 +34,12 @@ export interface BoardState {
   columns: Column[];
 }
 
-
 export enum BoardActionKind {
-  PLATFORM = "PLATFORM",
-  MARKETING = "MARKETING",
-  ROADMAP = "ROADMAP",
-  NEWCOLUMN = "NEWCOLUMN",
-  DELETECOLUMN = "DELETECOLUMN",
+  PLATFORM = 'PLATFORM',
+  MARKETING = 'MARKETING',
+  ROADMAP = 'ROADMAP',
+  NEWCOLUMN = 'NEWCOLUMN',
+  DELETECOLUMN = 'DELETECOLUMN',
 }
 
 export interface BoardAction {
@@ -54,7 +52,6 @@ export interface BoardAction {
 }
 
 async function getInitialBoards() {
-
   const data = await getBoards();
 
   return data.map((board, boardIndex) => ({
@@ -75,14 +72,18 @@ export const AppContext = createContext<{
   addColumnToCurrentBoard: (columnName: string) => void;
   deleteColumnFromCurrentBoard: (columnId: string) => void;
   updateCurrentBoardInBoards: (updatedBoard: Board) => void;
-}>({ 
-  currentBoard: null, 
-  boards: [], 
-  setBoards: () => {}, 
+  renameCurrentBoard: (newName: string) => void;
+  deleteCurrentBoard: () => void;
+}>({
+  currentBoard: null,
+  boards: [],
+  setBoards: () => {},
   setCurrentBoard: () => {},
   addColumnToCurrentBoard: () => {},
   deleteColumnFromCurrentBoard: () => {},
-  updateCurrentBoardInBoards: () => {}
+  updateCurrentBoardInBoards: () => {},
+  renameCurrentBoard: () => {},
+  deleteCurrentBoard: () => {},
 });
 
 export const AppContextProvider = ({
@@ -95,7 +96,7 @@ export const AppContextProvider = ({
 
   useEffect(() => {
     let mounted = true;
-    getInitialBoards().then((initial) => {
+    getInitialBoards().then(initial => {
       if (!mounted) return;
       setBoards(initial);
       setCurrentBoard(initial[0] ?? null);
@@ -115,7 +116,25 @@ export const AppContextProvider = ({
     };
 
     setCurrentBoard(updatedBoard);
-    setBoards(boards.map(b => b.id === currentBoard.id ? updatedBoard : b));
+    setBoards(boards.map(b => (b.id === currentBoard.id ? updatedBoard : b)));
+  };
+
+  const renameCurrentBoard = (newName: string) => {
+    if (!currentBoard) return;
+
+    const updatedBoard = {
+      ...currentBoard,
+      name: newName,
+    };
+
+    setCurrentBoard(updatedBoard);
+    setBoards(boards.map(b => (b.id === currentBoard.id ? updatedBoard : b)));
+  };
+
+  const deleteCurrentBoard = () => {
+    if (!currentBoard) return;
+    setBoards(boards.filter(b => b.id !== currentBoard.id));
+    setCurrentBoard(null);
   };
 
   const deleteColumnFromCurrentBoard = (columnId: string) => {
@@ -127,24 +146,28 @@ export const AppContextProvider = ({
     };
 
     setCurrentBoard(updatedBoard);
-    setBoards(boards.map(b => b.id === currentBoard.id ? updatedBoard : b));
+    setBoards(boards.map(b => (b.id === currentBoard.id ? updatedBoard : b)));
   };
 
   const updateCurrentBoardInBoards = (updatedBoard: Board) => {
     setCurrentBoard(updatedBoard);
-    setBoards(boards.map(b => b.id === updatedBoard.id ? updatedBoard : b));
+    setBoards(boards.map(b => (b.id === updatedBoard.id ? updatedBoard : b)));
   };
 
   return (
-    <AppContext.Provider value={{ 
-      currentBoard, 
-      boards, 
-      setBoards, 
-      setCurrentBoard,
-      addColumnToCurrentBoard,
-      deleteColumnFromCurrentBoard,
-      updateCurrentBoardInBoards
-    }}>
+    <AppContext.Provider
+      value={{
+        currentBoard,
+        boards,
+        setBoards,
+        setCurrentBoard,
+        addColumnToCurrentBoard,
+        deleteColumnFromCurrentBoard,
+        updateCurrentBoardInBoards,
+        renameCurrentBoard,
+        deleteCurrentBoard,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );

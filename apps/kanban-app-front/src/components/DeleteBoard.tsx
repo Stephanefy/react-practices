@@ -1,33 +1,33 @@
-import { useContext, useState } from "react";
-import { ModalContext } from "../context/ModalContext";
-import DropDown from "./Dropdown";
-import { AppContext, Column } from "../context/AppContext";
-import { nanoid } from "nanoid";
+import { useContext, useState } from 'react';
+import { ModalContext } from '../context/ModalContext';
+import DropDown from './Dropdown';
+import { AppContext, Column } from '../context/AppContext';
+import { nanoid } from 'nanoid';
 
 type Props = {};
 
 const columns = [
   {
     id: nanoid(),
-    name: "Todo",
+    name: 'Todo',
     tasks: [
       {
-        title: "",
-        description: "",
-        status: "",
-        subtasks: [{ title: "", isCompleted: false }],
+        title: '',
+        description: '',
+        status: '',
+        subtasks: [{ title: '', isCompleted: false }],
       },
     ],
   },
   {
     id: nanoid(),
-    name: "Doing",
+    name: 'Doing',
     tasks: [
       {
-        title: "",
-        description: "",
-        status: "",
-        subtasks: [{ title: "", isCompleted: false }],
+        title: '',
+        description: '',
+        status: '',
+        subtasks: [{ title: '', isCompleted: false }],
       },
     ],
   },
@@ -46,7 +46,7 @@ const DeleteBoard = (props: Props) => {
   // TODO add controlled state to add new task in board
 
   return (
-    <div className="absolute top-48 left-1/2 w-11/12 -translate-x-1/2 -translate-y-24 transform rounded-lg bg-white pr-3">
+    <div className="absolute left-1/2 top-48 w-11/12 -translate-x-1/2 -translate-y-24 transform rounded-lg bg-white pr-3">
       <div className="px-8 py-4">
         <h2 className="my-2 text-2xl font-bold text-primary-red">
           Delete Board
@@ -87,12 +87,12 @@ const DeleteBoard = (props: Props) => {
                     type="button"
                     onClick={() => {
                       const deletedColumn = newColumn.filter(
-                        (col) => col.id !== column.id
+                        col => col.id !== column.id
                       );
                       setNewColumn(deletedColumn);
                     }}
                   >
-                    <span className="mx-2  inline-block text-primary-gray">
+                    <span className="mx-2 inline-block text-primary-gray">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -113,7 +113,7 @@ const DeleteBoard = (props: Props) => {
               ))}
             </div>
             <button
-              className="my-4 w-full rounded-full bg-primary/10 py-2 px-4 font-semibold text-primary"
+              className="my-4 w-full rounded-full bg-primary/10 px-4 py-2 font-semibold text-primary"
               type="button"
             >
               Delete
@@ -121,7 +121,7 @@ const DeleteBoard = (props: Props) => {
           </div>
           <div>
             <button
-              className="my-4 w-full rounded-full bg-primary py-2 px-4 font-semibold text-white"
+              className="my-4 w-full rounded-full bg-primary px-4 py-2 font-semibold text-white"
               type="button"
             >
               Cancel

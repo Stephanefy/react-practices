@@ -1,11 +1,11 @@
-import { useState } from "react";
-import "./App.css";
-import Sidebar from "./components/Sidebar";
-import Navbar from "./components/Navbar";
-import Board from "./components/Board";
-import { ModalContextProvider } from "./context/ModalContext";
-import { AppContextProvider } from "./context/AppContext";
-import { ErrorBoundary } from "./components/ErrorBoundary";
+import { useState } from 'react';
+import './App.css';
+import Sidebar from './components/Sidebar';
+import Navbar from './components/Navbar';
+import Board from './components/Board';
+import { ModalContextProvider } from './context/ModalContext';
+import { AppContextProvider } from './context/AppContext';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 function App() {
   const [sidebarHeight, setSidebarHeight] = useState(0);

@@ -1,18 +1,18 @@
-import { useContext, useRef, useState, useEffect } from "react";
-import data from "../assets/data.json";
-import Kanbancard from "./Kanbancard";
-import PortalModal from "./modals/Modal";
-import { ModalActionType, ModalContext } from "../context/ModalContext";
-import MobileMenu from "./MobileMenu";
-import TaskDetails from "./TaskDetails";
-import { nanoid } from "nanoid";
-import AddTask from "./AddTask";
-import EditTask from "./EditTask";
-import AddBoard from "./AddBoard";
-import EditBoard from "./EditBoard";
-import clsx from "clsx";
-import Column from "./Column";
-import { AppContext } from "../context/AppContext";
+import { useContext, useRef, useState, useEffect } from 'react';
+import data from '../assets/data.json';
+import Kanbancard from './Kanbancard';
+import PortalModal from './modals/Modal';
+import { ModalActionType, ModalContext } from '../context/ModalContext';
+import MobileMenu from './MobileMenu';
+import TaskDetails from './TaskDetails';
+import { nanoid } from 'nanoid';
+import AddTask from './AddTask';
+import EditTask from './EditTask';
+import AddBoard from './AddBoard';
+import EditBoard from './EditBoard';
+import clsx from 'clsx';
+import Column from './Column';
+import { AppContext } from '../context/AppContext';
 
 type Props = {
   setSidebarHeight: (height: number) => void;
@@ -28,7 +28,7 @@ const Board = (props: Props) => {
   const [boardsListHeight, setBoardingListHeight] = useState<number>(0);
 
   useEffect(() => {
-    console.log("hide sidebar", props.hideSideBar);
+    console.log('hide sidebar', props.hideSideBar);
 
     if (boardsListRef.current) {
       props.setSidebarHeight(boardsListRef?.current?.offsetHeight);
@@ -39,9 +39,8 @@ const Board = (props: Props) => {
 
   const { boards: jsonBoards } = data;
 
-
   const addNewColumn = () => {
-    addColumnToCurrentBoard("New Column");
+    addColumnToCurrentBoard('New Column');
   };
 
   let currentOpenModal;
@@ -50,25 +49,30 @@ const Board = (props: Props) => {
     <>
       <div
         className={clsx(
-          "flex flex-1 min-h-screen overflow-hidden bg-secondary-gray text-5xl md:px-16 pt-[150px] pb-16",
+          'flex min-h-screen flex-1 overflow-hidden bg-secondary-gray pb-16 pt-[150px] text-5xl md:px-16',
           {
-            "items-start": (currentBoard?.columns.length ?? 0) > 0,
-            "items-center": (currentBoard?.columns.length ?? 0) === 0,
-            "justify-center": (currentBoard?.columns.length ?? 0) === 0,
-            "justify-start": (currentBoard?.columns.length ?? 0) > 0,
-            "-translate-x-52 transform duration-300 ease-in": props.hideSideBar,
-            "translate-x-0 transform duration-300 ease-in": !props.hideSideBar,
+            'items-start': (currentBoard?.columns.length ?? 0) > 0,
+            'items-center': (currentBoard?.columns.length ?? 0) === 0,
+            'justify-center': (currentBoard?.columns.length ?? 0) === 0,
+            'justify-start': (currentBoard?.columns.length ?? 0) > 0,
+            '-translate-x-52 transform duration-300 ease-in': props.hideSideBar,
+            'translate-x-0 transform duration-300 ease-in': !props.hideSideBar,
           }
         )}
       >
         <div
-          className={`grid  grid-flow-col p-4 lg:p-0 ${
-            currentBoard?.columns.length && "overflow-auto"
+          className={`grid grid-flow-col p-4 lg:p-0 ${
+            currentBoard?.columns.length && 'overflow-auto'
           }`}
         >
           {(currentBoard?.columns.length ?? 0) > 0 ? (
             currentBoard?.columns.map((column, index) => (
-              <Column key={column.id} column={column} index={index} ref={boardsListRef} />
+              <Column
+                key={column.id}
+                column={column}
+                index={index}
+                ref={boardsListRef}
+              />
             ))
           ) : (
             <div className="mx-auto flex w-full flex-col md:w-full md:items-center md:justify-center">
@@ -86,15 +90,12 @@ const Board = (props: Props) => {
             </div>
           )}
           {(currentBoard?.columns.length ?? 0) > 0 ? (
-            <section className="mr-4 flex w-72 min-h-screen items-center justify-center rounded-lg bg-[#E9EFFA] pb-4">
-              <button
-                className="text-lg"
-                onClick={() =>
-                  addNewColumn()
-                }
-              >
+            <section className="mr-4 flex min-h-screen w-72 items-center justify-center rounded-lg bg-[#E9EFFA] pb-4">
+              <button className="text-lg" onClick={() => addNewColumn()}>
                 <span className="text-primary-gray">+</span>
-                <span className="text-primary-gray font-semibold hover:text-primary">New Column</span>
+                <span className="font-semibold text-primary-gray hover:text-primary">
+                  New Column
+                </span>
               </button>
             </section>
           ) : null}

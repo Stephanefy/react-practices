@@ -1,19 +1,19 @@
-import { createContext, Dispatch, SetStateAction, FC, useReducer } from "react";
-import produce, { Draft } from "immer";
-import { Task } from "./AppContext";
-import { nanoid } from "nanoid";
+import { createContext, Dispatch, SetStateAction, FC, useReducer } from 'react';
+import produce, { Draft } from 'immer';
+import { Task } from './AppContext';
+import { nanoid } from 'nanoid';
 
 //type guards
 
 function isTask(payload: Task | string): payload is Task {
-  if (typeof payload === "object") {
-    return "title" in payload;
+  if (typeof payload === 'object') {
+    return 'title' in payload;
   }
   return false;
 }
 
 function isString(payload: Task | string): payload is string {
-  if (typeof payload === "string") {
+  if (typeof payload === 'string') {
     return true;
   }
   return false;
@@ -30,8 +30,8 @@ export const enum ModalActionType {
   ADDCOLUMN = 7,
   DELETETASK = 8,
   DELETEBOARD = 9,
-  CHANGE_COMPLETION = "CHANGE_COMPLETION",
-  EDIT_TASK_FIELDS = "EDIT_TASK_FIELDS",
+  CHANGE_COMPLETION = 'CHANGE_COMPLETION',
+  EDIT_TASK_FIELDS = 'EDIT_TASK_FIELDS',
 }
 
 type ActionFieldValue = {
@@ -65,7 +65,7 @@ interface ModalContextProviderProps {
 
 const initialState = {
   showModal: 0,
-  task: { id: "", title: "", description: "", status: "", subtasks: [] },
+  task: { id: '', title: '', description: '', status: '', subtasks: [] },
 };
 
 export const ModalContext = createContext<{
@@ -81,10 +81,10 @@ const ModalReducer = produce((draft: ModalState, action: ModalAction): void => {
     case ModalActionType.NONEOPEN:
       draft.showModal = ModalActionType.NONEOPEN;
       draft.task = {
-        id: "",
-        title: "",
-        description: "",
-        status: "",
+        id: '',
+        title: '',
+        description: '',
+        status: '',
         subtasks: [],
       };
       break;
@@ -126,8 +126,8 @@ const ModalReducer = produce((draft: ModalState, action: ModalAction): void => {
       break;
     case ModalActionType.CHANGE_COMPLETION:
       draft.task!.subtasks!.map((task: Task) => {
-        console.log("kfkdsjlf", action.payload);
-        console.log("task.id", task.id);
+        console.log('kfkdsjlf', action.payload);
+        console.log('task.id', task.id);
 
         if (task.id === action!.payload!) {
           task.isCompleted = !task.isCompleted;
@@ -142,7 +142,7 @@ export const ModalContextProvider = ({
   children,
 }: ModalContextProviderProps) => {
   const [state, dispatch] = useReducer(ModalReducer, initialState);
-  console.log("state", state);
+  console.log('state', state);
 
   return (
     <ModalContext.Provider value={{ state, dispatch }}>

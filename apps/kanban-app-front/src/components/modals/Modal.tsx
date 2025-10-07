@@ -1,7 +1,7 @@
-import { FC, ReactNode, useEffect, Dispatch, useContext } from "react";
-import ReactPortals from "../portal/ReactPortal";
-import { ModalAction, ModalActionType } from "../../context/ModalContext";
-import { ModalContext } from "../../context/ModalContext";
+import { FC, ReactNode, useEffect, Dispatch, useContext } from 'react';
+import ReactPortals from '../portal/ReactPortal';
+import { ModalAction, ModalActionType } from '../../context/ModalContext';
+import { ModalContext } from '../../context/ModalContext';
 
 interface Props {
   children: ReactNode;
@@ -18,15 +18,15 @@ const PortalModal: FC<Props> = ({
 
   useEffect(() => {
     const closeOnEscapeKey = (e: { key: string }) =>
-      e.key === "Escape" ? onClose?.({ type: ModalActionType.NONEOPEN }) : null;
-    document.body.addEventListener("keydown", closeOnEscapeKey);
+      e.key === 'Escape' ? onClose?.({ type: ModalActionType.NONEOPEN }) : null;
+    document.body.addEventListener('keydown', closeOnEscapeKey);
     return () => {
-      document.body.removeEventListener("keydown", closeOnEscapeKey);
+      document.body.removeEventListener('keydown', closeOnEscapeKey);
     };
   }, [onClose]);
 
   useEffect(() => {
-    console.log("mounted");
+    console.log('mounted');
   }, []);
 
   if (!isOpen || state.showModal === 0) return null;
@@ -35,7 +35,7 @@ const PortalModal: FC<Props> = ({
     <ReactPortals wrapperId="modal-container">
       <div
         className={`fixed inset-0 flex min-h-screen w-screen items-center justify-center overflow-y-auto bg-gray-900 bg-opacity-50 ${
-          state.showModal > 1 ? "z-[100]" : "Z-50"
+          state.showModal > 1 ? 'z-[100]' : 'Z-50'
         }`}
       >
         {/* <button

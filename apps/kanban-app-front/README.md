@@ -7,6 +7,7 @@ A work-in-progress Kanban board application built with React, TypeScript, and Ta
 ⚠️ **This project is actively being developed.** Some features may be incomplete, buggy, or subject to change.
 
 ### What's Working
+
 - Basic board and column structure with sample data
 - Task display with subtasks
 - Dark/light theme toggle
@@ -15,6 +16,7 @@ A work-in-progress Kanban board application built with React, TypeScript, and Ta
 - Modal system for various operations
 
 ### In Progress/Planned
+
 - Drag & drop functionality (partially implemented)
 - Task CRUD operations (basic create/edit in progress)
 - Board management features
@@ -24,12 +26,14 @@ A work-in-progress Kanban board application built with React, TypeScript, and Ta
 ## Features
 
 ### Core Functionality
+
 - **Board Display**: View multiple boards with column-based layout
 - **Task Management**: Basic task display with subtask tracking
 - **Theme Toggle**: Switch between light and dark themes
 - **Responsive Design**: Works on desktop and mobile devices
 
 ### User Interface
+
 - **Sidebar Navigation**: Collapsible sidebar for board switching
 - **Modal System**: Portal-based modals for task and board operations
 - **Mobile Menu**: Basic mobile navigation (in progress)
@@ -45,6 +49,7 @@ A work-in-progress Kanban board application built with React, TypeScript, and Ta
 - **State Management**: React Context API
 
 ### Key Dependencies
+
 - `@headlessui/react` - UI components
 - `@heroicons/react` - Icon library
 - `@tailwindcss/forms` - Form styling
@@ -77,22 +82,26 @@ src/
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js (version 16 or higher)
 - npm or yarn package manager
 
 ### Installation
 
 1. **Navigate to project directory**
+
    ```bash
    cd apps/kanban-app-front
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Start development server**
+
    ```bash
    npm run dev
    ```
@@ -109,12 +118,14 @@ src/
 ## Usage
 
 ### Current Functionality
+
 - **View Boards**: Switch between different boards using the sidebar
 - **View Tasks**: Click on tasks to see details and subtasks
 - **Toggle Theme**: Switch between light and dark themes
 - **Responsive View**: Works on different screen sizes
 
 ### What's Being Developed
+
 - Task creation and editing
 - Board management
 - Drag and drop functionality
@@ -140,29 +151,32 @@ The application uses a hierarchical data structure:
               subtasks: [
                 {
                   title: string,
-                  isCompleted: boolean
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]
+                  isCompleted: boolean,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ];
 }
 ```
 
 ## Architecture
 
 ### State Management
+
 - **Context API**: Global state management using React Context
 - **Custom Hooks**: Reusable logic extracted into custom hooks
 
 ### Component Architecture
+
 - **Separation of Concerns**: UI components and business logic
 - **Portal Pattern**: Modal components rendered outside the DOM hierarchy
 
 ### Styling
+
 - **Tailwind CSS**: Utility-first CSS framework
 - **Responsive Design**: Mobile-first approach
 - **Dark Mode**: CSS custom properties for theme switching
@@ -177,6 +191,7 @@ The application uses a hierarchical data structure:
 ## Learning Goals
 
 This project is built to practice:
+
 - React with TypeScript
 - Modern React patterns (Context, Hooks)
 - Component architecture
