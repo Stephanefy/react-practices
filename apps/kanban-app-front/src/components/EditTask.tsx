@@ -3,16 +3,17 @@ import { ModalContext } from '../context/ModalContext';
 import DropDown from './Dropdown';
 import { Task } from '../context/AppContext';
 import { ModalActionType } from '../context/ModalContext';
+import { AppContext } from '../context/AppContext';
 
 type Props = {};
 
 const EditTask = (props: Props) => {
   const { state, dispatch } = useContext(ModalContext);
+  const { removeTaskFromCurrentColumn, currentSelectedColumn } =
+    useContext(AppContext);
 
   const [numOfSubtasks, setNumOfSubtasks] = useState<number>(1);
   const [newTask, setNewTask] = useState<Task | null>(null);
-
-  console.log('state', state);
 
   return (
     <div className="absolute left-1/2 top-48 w-11/12 -translate-x-1/2 -translate-y-24 transform rounded-lg bg-white pr-3">
@@ -107,13 +108,28 @@ const EditTask = (props: Props) => {
               + Add New Subtask
             </button>
           </div>
-          <DropDown />
+          {/* <DropDown /> */}
           <div>
             <button
               className="my-4 w-full rounded-full bg-primary px-4 py-2 font-semibold text-white"
               type="button"
             >
               Create Task
+            </button>
+          </div>
+          <div>
+            <button
+              onClick={() => {
+                dispatch({ type: ModalActionType.NONEOPEN });
+                removeTaskFromCurrentColumn(
+                  state.task!.id!,
+                  currentSelectedColumn!.id
+                );
+              }}
+              className="my-4 w-full rounded-full bg-red-500 px-4 py-2 font-semibold text-white"
+              type="button"
+            >
+              Delete Task
             </button>
           </div>
         </form>

@@ -1,4 +1,4 @@
-import { FC, ReactNode, useEffect, Dispatch, useContext } from 'react';
+import { FC, ReactNode, useEffect, Dispatch, useContext, JSX } from 'react';
 import ReactPortals from '../portal/ReactPortal';
 import { ModalAction, ModalActionType } from '../../context/ModalContext';
 import { ModalContext } from '../../context/ModalContext';

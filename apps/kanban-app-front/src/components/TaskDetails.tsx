@@ -1,4 +1,4 @@
-import { FC, useContext } from 'react';
+import { FC, useContext, JSX } from 'react';
 import { ModalContext } from '../context/ModalContext';
 import Checkbox from './Checkbox';
 import { nanoid } from 'nanoid';
@@ -73,7 +73,7 @@ const TaskDetails: FC<Props> = (props): JSX.Element => {
             <p>no subtasks</p>
           )}
         </ul>
-        <DropDown />
+        <DropDown newTask={state.task} setNewTask={() => {}} />
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import { ModalActionType, ModalContext } from '../context/ModalContext';
 import MobileMenu from './MobileMenu';
 import TaskDetails from './TaskDetails';
 import { nanoid } from 'nanoid';
-import AddTask from './AddTask';
+import AddTask from '../features/tasks/AddTask';
 import EditTask from './EditTask';
 import AddBoard from './AddBoard';
 import EditBoard from './EditBoard';

@@ -6,7 +6,7 @@ type Props = {
   wrapperId: string;
 };
 
-function createWrappeAndAppendToBody(wrapperId: string) {
+function createWrapperAndAppendToBody(wrapperId: string) {
   const wrapperElement = document.createElement('div');
   wrapperElement.setAttribute('id', wrapperId);
   document.body.appendChild(wrapperElement);
@@ -25,7 +25,7 @@ const ReactPortal = ({ children, wrapperId = 'portal-wrapper' }: Props) => {
 
     if (!element) {
       systemCreated = true;
-      element = createWrappeAndAppendToBody(wrapperId);
+      element = createWrapperAndAppendToBody(wrapperId);
     }
 
     setWrapperElement(element);

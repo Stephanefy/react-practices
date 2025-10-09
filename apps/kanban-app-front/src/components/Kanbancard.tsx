@@ -1,9 +1,16 @@
 import { useContext } from 'react';
-import { Column, Task, SubTask } from '../context/AppContext';
+import { Task, AppContext } from '../context/AppContext';
 import { ModalContext, ModalActionType } from '../context/ModalContext';
 import { nanoid } from 'nanoid';
 
-const Kanbancard = ({ id, title, description, status, subtasks }: Task) => {
+const Kanbancard = ({
+  id,
+  title,
+  description,
+  status,
+  subtasks,
+  columnId,
+}: Task & { columnId: string }) => {
   const subtasksCount = subtasks!.reduce((acc, subtask) => {
     if (subtask.isCompleted) {
       return acc + 1;
@@ -12,6 +19,7 @@ const Kanbancard = ({ id, title, description, status, subtasks }: Task) => {
   }, 0);
 
   const { dispatch } = useContext(ModalContext);
+  const { currentBoard, setCurrentSelectedColumn } = useContext(AppContext);
 
   const payload = {
     id,
@@ -26,8 +34,13 @@ const Kanbancard = ({ id, title, description, status, subtasks }: Task) => {
 
   return (
     <div
-      onClick={() => dispatch({ type: ModalActionType.TASKDETAILS, payload })}
-      className="mt-4 w-full rounded-lg bg-white px-3 py-8"
+      onClick={() => {
+        dispatch({ type: ModalActionType.TASKDETAILS, payload });
+        setCurrentSelectedColumn(
+          currentBoard?.columns.find(col => col.id === columnId) ?? null
+        );
+      }}
+      className="mt-4 w-full cursor-pointer rounded-lg bg-white px-3 py-8 hover:bg-primary-gray/10"
     >
       <h4 className="text-sm font-bold text-primary-black">{title}</h4>
       <p className="text-sm font-bold text-primary-gray">

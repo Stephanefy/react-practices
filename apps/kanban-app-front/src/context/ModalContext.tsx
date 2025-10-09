@@ -126,9 +126,6 @@ const ModalReducer = produce((draft: ModalState, action: ModalAction): void => {
       break;
     case ModalActionType.CHANGE_COMPLETION:
       draft.task!.subtasks!.map((task: Task) => {
-        console.log('kfkdsjlf', action.payload);
-        console.log('task.id', task.id);
-
         if (task.id === action!.payload!) {
           task.isCompleted = !task.isCompleted;
         }

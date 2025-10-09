@@ -6,6 +6,7 @@ import {
   ChevronUpDownIcon,
   CheckIcon,
 } from '@heroicons/react/20/solid';
+import { Task } from '../context/AppContext';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -17,7 +18,13 @@ const status = [
   { id: 3, name: 'Done' },
 ];
 
-export default function DropDown() {
+export default function DropDown({
+  newTask,
+  setNewTask,
+}: {
+  newTask: Task;
+  setNewTask: (task: Task) => void;
+}) {
   const { state } = useContext(ModalContext);
 
   const [selected, setSelected] = useState(status[2]);

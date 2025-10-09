@@ -25,8 +25,8 @@ export interface Task {
 
 export interface Column {
   id: string;
-  readonly name: string;
-  readonly tasks: readonly Task[];
+  name: string;
+  tasks: Task[];
 }
 
 export interface BoardState {
@@ -60,12 +60,23 @@ async function getInitialBoards() {
     columns: board.columns.map((column, columnIndex) => ({
       ...column,
       id: nanoid(),
+      tasks: column.tasks.map(task => ({
+        ...task,
+        id: nanoid(),
+        subtasks: task.subtasks?.map(subtask => ({
+          ...subtask,
+          id: nanoid(),
+        })),
+      })),
     })),
   }));
 }
 
 export const AppContext = createContext<{
   currentBoard: Board | null;
+  currentSelectedColumn: Column | null;
+  setCurrentSelectedColumn: (column: Column | null) => void;
+  setCurrentColumn: (columnId: string, payload: string | Task) => void;
   setCurrentBoard: (board: Board | null) => void;
   boards: Board[];
   setBoards: (boards: Board[]) => void;
@@ -74,16 +85,23 @@ export const AppContext = createContext<{
   updateCurrentBoardInBoards: (updatedBoard: Board) => void;
   renameCurrentBoard: (newName: string) => void;
   deleteCurrentBoard: () => void;
+  addTaskToCurrentColumn: (task: Task, columnId: string) => void;
+  removeTaskFromCurrentColumn: (taskId: string, columnId: string) => void;
 }>({
   currentBoard: null,
+  currentSelectedColumn: null,
+  setCurrentSelectedColumn: () => {},
   boards: [],
   setBoards: () => {},
   setCurrentBoard: () => {},
+  setCurrentColumn: () => {},
   addColumnToCurrentBoard: () => {},
   deleteColumnFromCurrentBoard: () => {},
   updateCurrentBoardInBoards: () => {},
   renameCurrentBoard: () => {},
   deleteCurrentBoard: () => {},
+  addTaskToCurrentColumn: () => {},
+  removeTaskFromCurrentColumn: () => {},
 });
 
 export const AppContextProvider = ({
@@ -93,6 +111,32 @@ export const AppContextProvider = ({
 }) => {
   const [boards, setBoards] = useState<Board[]>([]);
   const [currentBoard, setCurrentBoard] = useState<Board | null>(null);
+  const [currentSelectedColumn, setCurrentSelectedColumn] =
+    useState<Column | null>(null);
+
+  const setCurrentColumn = (columnId: string, payload: string | Task) => {
+    const column =
+      currentBoard?.columns.find(col => col.id === columnId) ?? null;
+
+    const updatedColumn = {
+      ...column,
+      ...(typeof payload === 'string'
+        ? { name: payload }
+        : { tasks: [payload] }),
+    } as Column;
+
+    const board = boards.find(b => b.id === currentBoard?.id) ?? null;
+
+    const updatedBoard = {
+      ...board,
+      columns: board?.columns.map(col =>
+        col.id === columnId ? updatedColumn : col
+      ),
+    } as Board;
+
+    setCurrentBoard(updatedBoard);
+    setBoards(boards.map(b => (b.id === currentBoard?.id ? updatedBoard : b)));
+  };
 
   useEffect(() => {
     let mounted = true;
@@ -154,11 +198,46 @@ export const AppContextProvider = ({
     setBoards(boards.map(b => (b.id === updatedBoard.id ? updatedBoard : b)));
   };
 
+  const addTaskToCurrentColumn = (task: Task, columnId: string) => {
+    if (!currentBoard) return;
+
+    const updatedBoard = {
+      ...currentBoard,
+      columns: [
+        ...currentBoard.columns,
+        { id: nanoid(), name: 'New Column', tasks: [task] },
+      ],
+    };
+
+    setCurrentBoard(updatedBoard);
+    setBoards(boards.map(b => (b.id === currentBoard.id ? updatedBoard : b)));
+  };
+
+  const removeTaskFromCurrentColumn = (taskId: string, columnId: string) => {
+    if (!currentBoard) return;
+
+    console.log(taskId, columnId);
+
+    const updatedBoard = {
+      ...currentBoard,
+      columns: currentBoard.columns.map(col =>
+        col.id === columnId
+          ? { ...col, tasks: col.tasks.filter(task => task.id !== taskId) }
+          : col
+      ),
+    };
+    setCurrentBoard(updatedBoard); // ✅ Updates currentBoard
+    setBoards(boards.map(b => (b.id === currentBoard.id ? updatedBoard : b)));
+  };
+
   return (
     <AppContext.Provider
       value={{
         currentBoard,
         boards,
+        currentSelectedColumn,
+        setCurrentSelectedColumn,
+        setCurrentColumn,
         setBoards,
         setCurrentBoard,
         addColumnToCurrentBoard,
@@ -166,6 +245,8 @@ export const AppContextProvider = ({
         updateCurrentBoardInBoards,
         renameCurrentBoard,
         deleteCurrentBoard,
+        addTaskToCurrentColumn,
+        removeTaskFromCurrentColumn,
       }}
     >
       {children}
