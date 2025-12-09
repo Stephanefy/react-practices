@@ -41,9 +41,6 @@ const EditBoard = (props: Props) => {
   const [numOfSubtasks, setNumOfSubtasks] = useState<number>(1);
   const [newColumn, setNewColumn] = useState<Column[]>(columns);
 
-  console.log(state);
-  console.log(currentBoard);
-
   // TODO add controlled state to add new task in board
 
   return (

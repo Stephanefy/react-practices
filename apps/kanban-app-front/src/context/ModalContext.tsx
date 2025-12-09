@@ -1,6 +1,6 @@
 import { createContext, Dispatch, SetStateAction, FC, useReducer } from 'react';
 import produce, { Draft } from 'immer';
-import { Task } from './AppContext';
+import { Task } from '../types';
 import { nanoid } from 'nanoid';
 
 //type guards
@@ -139,7 +139,6 @@ export const ModalContextProvider = ({
   children,
 }: ModalContextProviderProps) => {
   const [state, dispatch] = useReducer(ModalReducer, initialState);
-  console.log('state', state);
 
   return (
     <ModalContext.Provider value={{ state, dispatch }}>

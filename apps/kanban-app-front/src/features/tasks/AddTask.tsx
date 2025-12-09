@@ -7,8 +7,6 @@ type Props = {};
 const AddTask = (props: Props) => {
   const { state, dispatch } = useContext(ModalContext);
 
-  console.log(state);
-
   // TODO add controlled state to add new task in board
 
   return (

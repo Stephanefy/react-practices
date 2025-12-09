@@ -25,10 +25,6 @@ const PortalModal: FC<Props> = ({
     };
   }, [onClose]);
 
-  useEffect(() => {
-    console.log('mounted');
-  }, []);
-
   if (!isOpen || state.showModal === 0) return null;
 
   return (

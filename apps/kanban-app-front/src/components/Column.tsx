@@ -1,5 +1,5 @@
 import Kanbancard from './Kanbancard';
-import type { Column } from '../context/AppContext';
+import { type Column, type Task } from '../types';
 import { forwardRef, useContext, useEffect, useState } from 'react';
 import { nanoid } from 'nanoid';
 import CrossSvg from './svg/CrossSvg';
@@ -7,6 +7,7 @@ import { AppContext } from '../context/AppContext';
 
 interface ColumnProps {
   column: Column;
+  columns: Column[];
   index: number;
 }
 
@@ -16,21 +17,26 @@ const Column = forwardRef<HTMLElement, ColumnProps>(
       deleteColumnFromCurrentBoard,
       setCurrentColumn,
       currentSelectedColumn,
+      currentBoard,
+      updateCurrentBoardInBoards,
     } = useContext(AppContext);
 
     const [isEditingColumn, setIsEditingColumn] = useState<boolean>(false);
     const [newColumnName, setNewColumnName] = useState<string>(
       props.column.name
     );
-
-    // need to refactor this logic
-    useEffect(() => {
-      setCurrentColumn(props.column.id, newColumnName);
-    }, [newColumnName]);
+    const [isHovered, setIsHovered] = useState<boolean>(false);
+    const [draggedTask, setDraggedTask] = useState<Task | null>(null);
 
     const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (newColumnName.length === 0) {
+        setCurrentColumn(props.column.id, props.column.name);
+      }
+
       if (e.key === 'Enter') {
         setIsEditingColumn(false);
+
+        setCurrentColumn(props.column.id, newColumnName);
       }
       if (e.key === 'Escape') {
         setIsEditingColumn(false);
@@ -38,24 +44,93 @@ const Column = forwardRef<HTMLElement, ColumnProps>(
     };
 
     const updateColumnName = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (
-        e.currentTarget.value.length > 20 ||
-        e.currentTarget.value.length < 0
-      ) {
+      if (e.currentTarget.value.length > 20) {
         return;
       }
       setNewColumnName(e.currentTarget.value);
     };
 
-    console.log('currentSelectedColumn', currentSelectedColumn);
+    const changeIsHoveredStyle = () => {
+      setIsHovered(prev => !prev);
+    };
+
+    const onDragStart: React.DragEventHandler<HTMLDivElement> = e => {
+      const taskId = (e.currentTarget as HTMLDivElement).getAttribute(
+        'data-task-id'
+      );
+      const task = props.column.tasks.find(t => t.id === taskId);
+      if (task) {
+        // Store task data in dataTransfer instead of state
+        e.dataTransfer!.effectAllowed = 'move';
+        e.dataTransfer!.setData('application/json', JSON.stringify(task));
+        setDraggedTask(task); // Keep this for visual feedback only
+      }
+    };
+
+    const onDragOver: React.DragEventHandler<HTMLDivElement> = e => {
+      e.preventDefault();
+    };
+
+    const onDragEnd: React.DragEventHandler<HTMLDivElement> = e => {
+      setDraggedTask(null);
+    };
+
+    const onDragDrop: React.DragEventHandler<HTMLDivElement> = e => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const draggedTaskData = e.dataTransfer!.getData('application/json');
+
+      if (!draggedTaskData || !currentBoard) return;
+
+      const draggedTaskFromEvent = JSON.parse(draggedTaskData) as Task;
+
+      const columnName = e.currentTarget!.id.split('-')[1];
+      const targetColumn = currentBoard.columns.find(
+        column => column.name === columnName
+      );
+
+      if (!targetColumn) return;
+
+      const sourceColumn = currentBoard.columns.find(col =>
+        col.tasks.some(t => t.id === draggedTaskFromEvent.id)
+      );
+
+      // single update to counter React batch udpate
+      if (!sourceColumn || sourceColumn.id === targetColumn.id) return;
+
+      const updatedBoard = {
+        ...currentBoard,
+        columns: currentBoard.columns.map(col => {
+          if (col.id === sourceColumn.id) {
+            return {
+              ...col,
+              tasks: col.tasks.filter(t => t.id !== draggedTaskFromEvent.id),
+            };
+          }
+          if (col.id === targetColumn.id) {
+            return {
+              ...col,
+              tasks: [...col.tasks, draggedTaskFromEvent],
+            };
+          }
+          return col;
+        }),
+      };
+
+      updateCurrentBoardInBoards(updatedBoard);
+      setDraggedTask(null);
+    };
+
     return (
       <section
+        id={`column-${props.column.name}`}
+        onDrop={onDragDrop}
+        onDragOver={onDragOver}
         ref={ref}
-        className={`mr-4 w-64 ${
-          currentSelectedColumn?.id === props.column.id
-            ? 'rounded-lg bg-red-800/10 p-4'
-            : ''
-        }`}
+        className={`mr-4 w-64 rounded-lg bg-red-800/10 p-4`}
+        onMouseEnter={changeIsHoveredStyle}
+        onMouseLeave={changeIsHoveredStyle}
       >
         <h3 className="flex justify-between text-base text-primary-gray">
           <div>
@@ -102,8 +177,12 @@ const Column = forwardRef<HTMLElement, ColumnProps>(
             <Kanbancard
               key={task.id}
               columnId={props.column.id}
+              onDragStart={onDragStart}
+              onDragOver={onDragOver}
+              onDragEnd={onDragEnd}
               id={task.id}
               title={task.title}
+              draggedTask={draggedTask}
               description={task.description}
               status={task.status}
               subtasks={task.subtasks}

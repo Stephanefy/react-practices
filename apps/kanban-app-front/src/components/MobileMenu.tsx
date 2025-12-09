@@ -9,8 +9,6 @@ const MobileMenu: FC<Props> = (props): ReactNode => {
   const { boards, currentBoard, setCurrentBoard } = useContext(AppContext);
   const { dispatch: dispatchModal } = useContext(ModalContext);
 
-  console.log(currentBoard);
-
   return (
     <div className="absolute left-1/2 top-64 w-[234px] -translate-x-1/2 -translate-y-1/2 transform rounded-lg bg-white pr-3">
       <ul className="w-full py-3 pl-3">

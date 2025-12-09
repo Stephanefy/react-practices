@@ -17,8 +17,6 @@ const Sidebar = (props: Props) => {
   const { boards, setBoards, currentBoard, setCurrentBoard } =
     useContext(AppContext);
 
-  console.log('boards', boards);
-
   const addNewBoard = () => {
     const newBoard = { id: nanoid(), name: 'New Board', columns: [] };
     setBoards([...boards, newBoard]);

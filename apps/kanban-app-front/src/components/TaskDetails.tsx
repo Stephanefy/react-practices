@@ -21,8 +21,6 @@ const TaskDetails: FC<Props> = (props): JSX.Element => {
     task => task.isCompleted
   ).length;
 
-  console.log(completedTaskNumber);
-
   return (
     <div className="absolute left-1/2 top-64 w-11/12 -translate-x-1/2 -translate-y-10 transform rounded-lg bg-white pr-3">
       <div className="px-8 py-4">

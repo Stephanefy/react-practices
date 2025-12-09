@@ -1,55 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
 import { getBoards } from '../services/boardServices';
-
-export interface Board {
-  id: string;
-  name: string;
-  columns: Column[];
-}
-
-export interface SubTask {
-  id?: string;
-  readonly title: string;
-  isCompleted: boolean;
-}
-
-export interface Task {
-  id?: string;
-  title?: string;
-  description?: string;
-  status?: string;
-  subtasks?: SubTask[];
-  isCompleted?: boolean;
-}
-
-export interface Column {
-  id: string;
-  name: string;
-  tasks: Task[];
-}
-
-export interface BoardState {
-  name: string;
-  columns: Column[];
-}
-
-export enum BoardActionKind {
-  PLATFORM = 'PLATFORM',
-  MARKETING = 'MARKETING',
-  ROADMAP = 'ROADMAP',
-  NEWCOLUMN = 'NEWCOLUMN',
-  DELETECOLUMN = 'DELETECOLUMN',
-}
-
-export interface BoardAction {
-  type: BoardActionKind;
-  payload: {
-    name?: string;
-    columns?: Column[];
-    id?: string;
-  };
-}
+import { type Board, type Column, type Task } from '../types';
 
 async function getInitialBoards() {
   const data = await getBoards();
@@ -57,7 +9,7 @@ async function getInitialBoards() {
   return data.map((board, boardIndex) => ({
     ...board,
     id: nanoid(),
-    columns: board.columns.map((column, columnIndex) => ({
+    columns: board.columns.map((column: Column, columnIndex: number) => ({
       ...column,
       id: nanoid(),
       tasks: column.tasks.map(task => ({
@@ -76,7 +28,7 @@ export const AppContext = createContext<{
   currentBoard: Board | null;
   currentSelectedColumn: Column | null;
   setCurrentSelectedColumn: (column: Column | null) => void;
-  setCurrentColumn: (columnId: string, payload: string | Task) => void;
+  setCurrentColumn: (columnId: string, payload: string | Task | Task[]) => void;
   setCurrentBoard: (board: Board | null) => void;
   boards: Board[];
   setBoards: (boards: Board[]) => void;
@@ -114,15 +66,24 @@ export const AppContextProvider = ({
   const [currentSelectedColumn, setCurrentSelectedColumn] =
     useState<Column | null>(null);
 
-  const setCurrentColumn = (columnId: string, payload: string | Task) => {
+  const setCurrentColumn = (
+    columnId: string,
+    payload: string | Task | Task[]
+  ) => {
     const column =
       currentBoard?.columns.find(col => col.id === columnId) ?? null;
+
+    if (!column) return;
 
     const updatedColumn = {
       ...column,
       ...(typeof payload === 'string'
         ? { name: payload }
-        : { tasks: [payload] }),
+        : {
+            tasks: Array.isArray(payload)
+              ? payload
+              : [...(column?.tasks || []), payload],
+          }),
     } as Column;
 
     const board = boards.find(b => b.id === currentBoard?.id) ?? null;
@@ -215,8 +176,6 @@ export const AppContextProvider = ({
 
   const removeTaskFromCurrentColumn = (taskId: string, columnId: string) => {
     if (!currentBoard) return;
-
-    console.log(taskId, columnId);
 
     const updatedBoard = {
       ...currentBoard,

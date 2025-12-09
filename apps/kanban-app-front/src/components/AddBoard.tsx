@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { ModalContext } from '../context/ModalContext';
 import DropDown from './Dropdown';
-import { Task } from '../context/AppContext';
+import { type Task } from '../types';
 
 type Props = {};
 
@@ -12,8 +12,6 @@ const AddBoard = (props: Props) => {
 
   const [numOfSubtasks, setNumOfSubtasks] = useState<number>(1);
   const [newTask, setNewTask] = useState<Task | null>(null);
-
-  console.log(state);
 
   // TODO add controlled state to add new task in board
 

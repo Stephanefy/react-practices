@@ -8,8 +8,6 @@ type Props = {
 };
 
 const Checkbox = ({ label, value, onChange, checked }: Props) => {
-  console.log(checked);
-
   return (
     <label>
       <input

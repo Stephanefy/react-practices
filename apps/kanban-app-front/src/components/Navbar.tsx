@@ -21,8 +21,6 @@ const Navbar = (props: Props) => {
     if (showDropdown) dispatch({ type: ModalActionType.MOBILEMENU });
   };
 
-  console.log(currentBoard);
-
   return (
     <nav className="fixed top-0 z-[60] flex h-[96px] w-full items-center bg-white">
       <div className="md:width-[261px] flex h-full items-center pl-3 pr-6 md:border-r-2 lg:basis-1/6">

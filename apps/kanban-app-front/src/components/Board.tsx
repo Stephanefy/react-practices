@@ -28,8 +28,6 @@ const Board = (props: Props) => {
   const [boardsListHeight, setBoardingListHeight] = useState<number>(0);
 
   useEffect(() => {
-    console.log('hide sidebar', props.hideSideBar);
-
     if (boardsListRef.current) {
       props.setSidebarHeight(boardsListRef?.current?.offsetHeight);
 
@@ -72,6 +70,7 @@ const Board = (props: Props) => {
                 column={column}
                 index={index}
                 ref={boardsListRef}
+                columns={currentBoard.columns}
               />
             ))
           ) : (
