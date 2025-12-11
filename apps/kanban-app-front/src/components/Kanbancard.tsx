@@ -6,6 +6,7 @@ import { nanoid } from 'nanoid';
 
 interface KanbanCardProps extends Task {
   columnId: string;
+  orderIdx: number;
   onDragStart?: React.DragEventHandler<HTMLDivElement>;
   onDragOver?: React.DragEventHandler<HTMLDivElement>;
   onDragEnd?: React.DragEventHandler<HTMLDivElement>;
@@ -23,6 +24,7 @@ const Kanbancard = ({
   onDragOver,
   onDragEnd,
   draggedTask,
+  orderIdx,
 }: KanbanCardProps) => {
   const subtasksCount = subtasks!.reduce((acc: number, subtask) => {
     if (subtask.isCompleted) {
@@ -34,7 +36,10 @@ const Kanbancard = ({
   const { dispatch } = useContext(ModalContext);
   const { currentBoard, setCurrentSelectedColumn } = useContext(AppContext);
 
+  const currentColumn = currentBoard?.columns.find(col => col.id === columnId);
+
   const payload = {
+    order: currentColumn?.tasks.length! + 1,
     id,
     title,
     description,
@@ -47,6 +52,7 @@ const Kanbancard = ({
 
   return (
     <div
+      data-orderidx={orderIdx}
       data-task-id={id}
       draggable
       onDragStart={onDragStart}

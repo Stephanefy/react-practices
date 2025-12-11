@@ -1,6 +1,6 @@
 import { createContext, Dispatch, SetStateAction, FC, useReducer } from 'react';
 import produce, { Draft } from 'immer';
-import { Task } from '../types';
+import { Task, SubTask } from '../types';
 import { nanoid } from 'nanoid';
 
 //type guards
@@ -65,7 +65,14 @@ interface ModalContextProviderProps {
 
 const initialState = {
   showModal: 0,
-  task: { id: '', title: '', description: '', status: '', subtasks: [] },
+  task: {
+    order: 0,
+    id: '',
+    title: '',
+    description: '',
+    status: '',
+    subtasks: [],
+  },
 };
 
 export const ModalContext = createContext<{
@@ -81,6 +88,7 @@ const ModalReducer = produce((draft: ModalState, action: ModalAction): void => {
     case ModalActionType.NONEOPEN:
       draft.showModal = ModalActionType.NONEOPEN;
       draft.task = {
+        order: 0,
         id: '',
         title: '',
         description: '',
@@ -125,7 +133,7 @@ const ModalReducer = produce((draft: ModalState, action: ModalAction): void => {
       draft.task = action.payload as Task;
       break;
     case ModalActionType.CHANGE_COMPLETION:
-      draft.task!.subtasks!.map((task: Task) => {
+      draft.task!.subtasks!.map((task: SubTask) => {
         if (task.id === action!.payload!) {
           task.isCompleted = !task.isCompleted;
         }

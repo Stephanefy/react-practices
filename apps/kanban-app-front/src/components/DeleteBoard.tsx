@@ -1,7 +1,8 @@
 import { useContext, useState } from 'react';
 import { ModalContext } from '../context/ModalContext';
 import DropDown from './Dropdown';
-import { AppContext, Column } from '../context/AppContext';
+import { AppContext } from '../context/AppContext';
+import { Column } from '../types';
 import { nanoid } from 'nanoid';
 
 type Props = {};
@@ -12,6 +13,7 @@ const columns = [
     name: 'Todo',
     tasks: [
       {
+        order: 0,
         title: '',
         description: '',
         status: '',
@@ -24,6 +26,7 @@ const columns = [
     name: 'Doing',
     tasks: [
       {
+        order: 1,
         title: '',
         description: '',
         status: '',

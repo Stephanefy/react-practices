@@ -1,9 +1,13 @@
 import Kanbancard from './Kanbancard';
 import { type Column, type Task } from '../types';
-import { forwardRef, useContext, useEffect, useState } from 'react';
-import { nanoid } from 'nanoid';
+import { forwardRef, useContext, useState } from 'react';
 import CrossSvg from './svg/CrossSvg';
 import { AppContext } from '../context/AppContext';
+import {
+  getClampedIdx,
+  getUpdatedReorderedColumn,
+  initDrag,
+} from '../utils/dnd';
 
 interface ColumnProps {
   column: Column;
@@ -16,7 +20,6 @@ const Column = forwardRef<HTMLElement, ColumnProps>(
     const {
       deleteColumnFromCurrentBoard,
       setCurrentColumn,
-      currentSelectedColumn,
       currentBoard,
       updateCurrentBoardInBoards,
     } = useContext(AppContext);
@@ -27,6 +30,7 @@ const Column = forwardRef<HTMLElement, ColumnProps>(
     );
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const [draggedTask, setDraggedTask] = useState<Task | null>(null);
+    const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
     const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (newColumnName.length === 0) {
@@ -55,24 +59,39 @@ const Column = forwardRef<HTMLElement, ColumnProps>(
     };
 
     const onDragStart: React.DragEventHandler<HTMLDivElement> = e => {
-      const taskId = (e.currentTarget as HTMLDivElement).getAttribute(
-        'data-task-id'
-      );
-      const task = props.column.tasks.find(t => t.id === taskId);
-      if (task) {
-        // Store task data in dataTransfer instead of state
-        e.dataTransfer!.effectAllowed = 'move';
-        e.dataTransfer!.setData('application/json', JSON.stringify(task));
-        setDraggedTask(task); // Keep this for visual feedback only
-      }
+      const task = initDrag(e, props.column.tasks);
+      setDraggedTask(task!);
     };
 
     const onDragOver: React.DragEventHandler<HTMLDivElement> = e => {
       e.preventDefault();
+
+      const cardElement = (e.currentTarget as HTMLElement).closest(
+        '[data-orderidx]'
+      );
+
+      if (!cardElement) return;
+      const rect = cardElement.getBoundingClientRect();
+
+      // 1. Get mouse position relative to the element's top edge
+      const hoverClientY = e.clientY - rect.top;
+
+      // 2. Calculate the midpoint height of the element
+      const hoverMiddleY = rect.height / 2;
+
+      const clampedIndex = getClampedIdx(
+        cardElement,
+        hoverClientY,
+        hoverMiddleY,
+        props.column.tasks
+      );
+
+      setDragOverIndex(clampedIndex!);
     };
 
     const onDragEnd: React.DragEventHandler<HTMLDivElement> = e => {
       setDraggedTask(null);
+      setDragOverIndex(null);
     };
 
     const onDragDrop: React.DragEventHandler<HTMLDivElement> = e => {
@@ -86,6 +105,7 @@ const Column = forwardRef<HTMLElement, ColumnProps>(
       const draggedTaskFromEvent = JSON.parse(draggedTaskData) as Task;
 
       const columnName = e.currentTarget!.id.split('-')[1];
+
       const targetColumn = currentBoard.columns.find(
         column => column.name === columnName
       );
@@ -96,30 +116,61 @@ const Column = forwardRef<HTMLElement, ColumnProps>(
         col.tasks.some(t => t.id === draggedTaskFromEvent.id)
       );
 
-      // single update to counter React batch udpate
-      if (!sourceColumn || sourceColumn.id === targetColumn.id) return;
+      if (sourceColumn!.id === targetColumn.id) {
+        // REORDER LOGIC - same column, swap tasks by index
 
-      const updatedBoard = {
-        ...currentBoard,
-        columns: currentBoard.columns.map(col => {
-          if (col.id === sourceColumn.id) {
-            return {
-              ...col,
-              tasks: col.tasks.filter(t => t.id !== draggedTaskFromEvent.id),
-            };
-          }
-          if (col.id === targetColumn.id) {
-            return {
-              ...col,
-              tasks: [...col.tasks, draggedTaskFromEvent],
-            };
-          }
-          return col;
-        }),
-      };
+        if (dragOverIndex === null) return;
 
-      updateCurrentBoardInBoards(updatedBoard);
-      setDraggedTask(null);
+        const validDropIndex = Math.min(
+          dragOverIndex,
+          sourceColumn!.tasks.length - 1
+        );
+
+        const draggedTaskIndex = sourceColumn!.tasks.findIndex(
+          t => t.id === draggedTaskFromEvent.id
+        );
+
+        if (draggedTaskIndex === validDropIndex) {
+          setDragOverIndex(null);
+          return;
+        }
+
+        const updatedBoard = getUpdatedReorderedColumn(
+          sourceColumn!,
+          draggedTaskIndex,
+          validDropIndex,
+          currentBoard
+        );
+
+        updateCurrentBoardInBoards(updatedBoard!);
+        setDraggedTask(null);
+        setDragOverIndex(null);
+      } else {
+        // DRAG TO ANOTHER COLUMN
+        // single update to counter React batch udpate
+        if (!sourceColumn || sourceColumn.id === targetColumn.id) return;
+
+        const updatedBoard = {
+          ...currentBoard,
+          columns: currentBoard.columns.map(col => {
+            if (col.id === sourceColumn.id) {
+              return {
+                ...col,
+                tasks: col.tasks.filter(t => t.id !== draggedTaskFromEvent.id),
+              };
+            }
+            if (col.id === targetColumn.id) {
+              return {
+                ...col,
+                tasks: [...col.tasks, draggedTaskFromEvent],
+              };
+            }
+            return col;
+          }),
+        };
+        updateCurrentBoardInBoards(updatedBoard);
+        setDraggedTask(null);
+      }
     };
 
     return (
@@ -180,12 +231,14 @@ const Column = forwardRef<HTMLElement, ColumnProps>(
               onDragStart={onDragStart}
               onDragOver={onDragOver}
               onDragEnd={onDragEnd}
+              order={task.order}
               id={task.id}
               title={task.title}
               draggedTask={draggedTask}
               description={task.description}
               status={task.status}
               subtasks={task.subtasks}
+              orderIdx={index}
             />
           ))}
         </div>

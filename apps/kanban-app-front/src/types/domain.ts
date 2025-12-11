@@ -11,6 +11,7 @@ export interface SubTask {
 }
 
 export interface Task {
+  order: number;
   id?: string;
   title?: string;
   description?: string;

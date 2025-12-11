@@ -4,7 +4,8 @@ import SwitchButton from './Switchbutton';
 import IconHideSideBar from '../assets/icon-hide-sidebar.svg';
 import IconShowSideBar from '../assets/icon-show-sidebar.svg';
 import { nanoid } from 'nanoid';
-import { AppContext, Board } from '../context/AppContext';
+import { AppContext } from '../context/AppContext';
+import { type Board } from '../types';
 import BoardItemLink from './BoardItemLink';
 
 type Props = {
