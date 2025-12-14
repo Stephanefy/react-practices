@@ -178,6 +178,7 @@ const Column = forwardRef<HTMLElement, ColumnProps>(
         id={`column-${props.column.name}`}
         onDrop={onDragDrop}
         onDragOver={onDragOver}
+        onDrag={onDragEnd}
         ref={ref}
         className={`mr-4 w-64 rounded-lg bg-red-800/10 p-4`}
         onMouseEnter={changeIsHoveredStyle}

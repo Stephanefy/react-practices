@@ -1,5 +1,4 @@
 import { useState, useEffect, useId, useContext } from 'react';
-import DropDown from '../../components/Dropdown';
 import { Column, SubTask, Task } from '../../types';
 import { nanoid } from 'nanoid';
 import { AppContext } from '../../context/AppContext';
@@ -11,6 +10,11 @@ interface FormState {
   title: string;
   description: string;
   subtasks: SubTask[];
+}
+
+interface ErrorState {
+  name: string;
+  description: string;
 }
 
 async function createNewTask(
@@ -69,16 +73,50 @@ export function AddTaskForm() {
   const [numOfSubtasks, setNumOfSubtasks] = useState<SubTask[]>([]);
   const { currentBoard, setBoards, setCurrentBoard } = useContext(AppContext);
   const { dispatch: setShowModal } = useContext(ModalContext);
-
+  const [errors, setErrors] = useState<ErrorState[]>([]);
   const [formData, setFormData] = useState<FormState>({
     title: '',
     description: '',
     subtasks: [],
   });
 
-  useEffect(() => {
-    console.log(numOfSubtasks);
-  }, [numOfSubtasks]);
+  const validate = (): boolean => {
+    const trimmedTitle = formData.title.trim();
+    const newErrors: ErrorState[] = [];
+
+    if (trimmedTitle.length === 0) {
+      setErrors([
+        {
+          name: 'title-required-error',
+          description: 'title is required',
+        },
+      ]);
+      return false;
+    }
+
+    if (trimmedTitle.length < 3) {
+      setErrors([
+        {
+          name: 'title-length-error',
+          description: 'The title should be over 3 characters',
+        },
+      ]);
+      return false;
+    }
+
+    if (formData.description.length > 500) {
+      setErrors([
+        {
+          name: 'description-length-error',
+          description: 'The description should be less than 500',
+        },
+      ]);
+      return false;
+    }
+
+    setErrors([]);
+    return true;
+  };
 
   const onTaskFormChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -91,6 +129,8 @@ export function AddTaskForm() {
         [name]: value,
       };
     });
+
+    setErrors([]);
   };
 
   const onSubTaskChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,6 +153,8 @@ export function AddTaskForm() {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validate()) return;
 
     const result = await createNewTask(formData, currentBoard!.id);
 
@@ -150,11 +192,24 @@ export function AddTaskForm() {
           id="title"
           type="text"
           name="title"
+          required
           value={formData.title}
           onChange={onTaskFormChange}
           className="w-full rounded-md border border-primary-gray/25 text-black placeholder:text-primary-gray/25"
           placeholder="e.g. Take coffee break"
         />
+        {(() => {
+          const titleErrorDescription = errors.find(
+            err => err.name === 'title-length-error'
+          )?.description;
+          return (
+            titleErrorDescription && (
+              <span className="pt-2 text-sm text-red-500">
+                {titleErrorDescription}
+              </span>
+            )
+          );
+        })()}
       </div>
       <div>
         <label
@@ -172,6 +227,18 @@ export function AddTaskForm() {
           className="w-full rounded-md border border-primary-gray/25 placeholder:text-primary-gray/25"
           placeholder="e.g. It’s always good to take a break. This 15 minute break will  recharge the batteries a little."
         />
+        {(() => {
+          const descriptionError = errors.find(
+            err => err.name === 'description-length-error'
+          );
+          return (
+            descriptionError && (
+              <span className="pt-2 text-red-500">
+                {descriptionError.description}
+              </span>
+            )
+          );
+        })()}
       </div>
       <div>
         <h3 className="my-2 inline-block font-semibold text-primary-gray">
