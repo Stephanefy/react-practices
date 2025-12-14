@@ -8,16 +8,12 @@ async function getInitialBoards() {
 
   return data.map((board, boardIndex) => ({
     ...board,
-    id: nanoid(),
     columns: board.columns.map((column: Column, columnIndex: number) => ({
       ...column,
-      id: nanoid(),
       tasks: column.tasks.map(task => ({
         ...task,
-        id: nanoid(),
         subtasks: task.subtasks?.map(subtask => ({
           ...subtask,
-          id: nanoid(),
         })),
       })),
     })),
@@ -109,7 +105,7 @@ export const AppContextProvider = ({
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [boards]);
 
   const addColumnToCurrentBoard = (columnName: string) => {
     if (!currentBoard) return;

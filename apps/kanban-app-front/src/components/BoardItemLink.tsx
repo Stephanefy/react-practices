@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 
-import { Board } from '../context/AppContext';
+import { Board } from '../types';
 import IconBoard from '../assets/icon-board.svg';
 import VerticalElipsis from '../assets/icon-vertical-ellipsis.svg';
 import RightContextMenu from './RightContextMenu';

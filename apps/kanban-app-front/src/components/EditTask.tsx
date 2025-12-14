@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { ModalContext } from '../context/ModalContext';
 import DropDown from './Dropdown';
-import { Task } from '../context/AppContext';
+import { Task } from '../types';
 import { ModalActionType } from '../context/ModalContext';
 import { AppContext } from '../context/AppContext';
 
