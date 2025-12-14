@@ -5,6 +5,7 @@ import { nanoid } from 'nanoid';
 import { AppContext } from '../../context/AppContext';
 import { ModalContext, ModalActionType } from '../../context/ModalContext';
 import { api } from '../../api/axios';
+import { getBoards } from '../../services/boardServices';
 
 interface FormState {
   title: string;
@@ -15,7 +16,7 @@ interface FormState {
 async function createNewTask(
   formData: FormState,
   currentBoardNameId: string
-): Promise<boolean> {
+): Promise<[boolean, any]> {
   const response = await api.get(`/boards/${currentBoardNameId}`);
 
   if (!response) throw new Error('Failed to fetch board');
@@ -58,14 +59,15 @@ async function createNewTask(
   });
 
   if (!updateResponse) {
-    return false;
+    return [false, null];
   }
-  return true;
+
+  return [true, updatedTodoColumn];
 }
 
 export function AddTaskForm() {
   const [numOfSubtasks, setNumOfSubtasks] = useState<SubTask[]>([]);
-  const { currentBoard } = useContext(AppContext);
+  const { currentBoard, setBoards, setCurrentBoard } = useContext(AppContext);
   const { dispatch: setShowModal } = useContext(ModalContext);
 
   const [formData, setFormData] = useState<FormState>({
@@ -114,7 +116,19 @@ export function AddTaskForm() {
 
     const result = await createNewTask(formData, currentBoard!.id);
 
-    if (result) {
+    if (result[0]) {
+      if (result[0]) {
+        getBoards().then(boards => {
+          setBoards(boards);
+          const updatedCurrentBoard = boards.find(
+            b => b.id === currentBoard?.id
+          );
+          if (updatedCurrentBoard) {
+            setCurrentBoard(updatedCurrentBoard);
+          }
+        });
+        setShowModal({ type: ModalActionType.NONEOPEN });
+      }
       setShowModal({ type: ModalActionType.NONEOPEN });
     }
   };

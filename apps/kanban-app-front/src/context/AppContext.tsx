@@ -105,7 +105,7 @@ export const AppContextProvider = ({
     return () => {
       mounted = false;
     };
-  }, [boards]);
+  }, []);
 
   const addColumnToCurrentBoard = (columnName: string) => {
     if (!currentBoard) return;
