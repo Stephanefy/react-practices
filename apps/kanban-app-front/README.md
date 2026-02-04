@@ -19,6 +19,7 @@ A work-in-progress Kanban board application built with React, TypeScript, and Ta
 ### In Progress/Planned
 
 - Drag & drop functionality (Improve precision of the drop event)
+- Drag & drop of Columns
 - Task CRUD operations (edit task, completion status and content edition)
 - Board management features
 - Better mobile experience
@@ -90,25 +91,19 @@ src/
 ### Installation
 
 1. **Navigate to project directory**
-
-   ```bash
+  ```bash
    cd apps/kanban-app-front
-   ```
-
+  ```
 2. **Install dependencies**
-
-   ```bash
+  ```bash
    npm install
-   ```
-
+  ```
 3. **Start development server**
-
-   ```bash
+  ```bash
    npm run dev
-   ```
-
+  ```
 4. **Open your browser**
-   Navigate to `http://localhost:5173` to view the application
+  Navigate to `http://localhost:5173` to view the application
 
 ### Available Scripts
 
@@ -204,3 +199,4 @@ This project is built to practice:
 
 - Built as a learning project for React and TypeScript development
 - Practice project for modern React patterns
+

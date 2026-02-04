@@ -12,9 +12,7 @@ export const createNewTask = async (
 
   const board = response.data;
 
-  const todoColumn = board.columns.find(
-    (col: any) => col.id === 'col-platform-todo'
-  );
+  const todoColumn = board.columns[0];
 
   const lastTaskId = todoColumn.tasks[todoColumn.tasks.length - 1].id.replace(
     'task-',

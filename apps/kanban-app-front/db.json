@@ -5,8 +5,8 @@
       "name": "Platform Launch",
       "columns": [
         {
-          "id": "col-platform-todo",
-          "name": "Todo",
+          "id": "W7ovSSmrHBbv6t7NQnAPE",
+          "name": "New Column",
           "tasks": [
             {
               "id": "task-9",
@@ -17,6 +17,30 @@
               "columnCategory": "Todo",
               "subtasks": []
             },
+            {
+              "id": "task-10",
+              "order": 0,
+              "title": "testtttt",
+              "description": "",
+              "status": "Todo",
+              "columnCategory": "Todo",
+              "subtasks": []
+            },
+            {
+              "id": "task-11",
+              "order": 0,
+              "title": "testfsdfsd",
+              "description": "",
+              "status": "Todo",
+              "columnCategory": "Todo",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "col-platform-todo",
+          "name": "Important",
+          "tasks": [
             {
               "id": "task-4",
               "order": 4,
@@ -121,6 +145,33 @@
                   "isCompleted": false
                 }
               ]
+            },
+            {
+              "id": "task-9",
+              "order": 0,
+              "title": "tes",
+              "description": "fsdfdsfs",
+              "status": "Todo",
+              "columnCategory": "Todo",
+              "subtasks": []
+            },
+            {
+              "id": "task-10",
+              "order": 0,
+              "title": "test",
+              "description": "fdsfdsf",
+              "status": "Todo",
+              "columnCategory": "Todo",
+              "subtasks": []
+            },
+            {
+              "id": "task-11",
+              "order": 0,
+              "title": "Test 2",
+              "description": "",
+              "status": "Todo",
+              "columnCategory": "Todo",
+              "subtasks": []
             }
           ]
         },
@@ -505,6 +556,15 @@
                   "isCompleted": false
                 }
               ]
+            },
+            {
+              "id": "task-NaN",
+              "order": 0,
+              "title": "test",
+              "description": "",
+              "status": "Todo",
+              "columnCategory": "Todo",
+              "subtasks": []
             }
           ]
         },

@@ -3,7 +3,6 @@ import { type Column, type Task } from '../types';
 import { forwardRef, useContext, useState } from 'react';
 import CrossSvg from './svg/CrossSvg';
 import { AppContext } from '../context/AppContext';
-import { getClampedIdx, initDrag } from '../utils/dnd';
 import { useDnd } from '../hooks/useDnd';
 
 interface ColumnProps {
