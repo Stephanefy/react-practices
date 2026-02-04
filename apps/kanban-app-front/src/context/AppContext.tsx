@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
 import { getBoards } from '../services/boardServices';
 import { type Board, type Column, type Task } from '../types';
+import { deleteTaskFromColumn } from '../api/tasks/tasks';
 
 async function getInitialBoards() {
   const data = await getBoards();
@@ -181,6 +182,7 @@ export const AppContextProvider = ({
           : col
       ),
     };
+    deleteTaskFromColumn(taskId, currentBoard.id, columnId);
     setCurrentBoard(updatedBoard); // ✅ Updates currentBoard
     setBoards(boards.map(b => (b.id === currentBoard.id ? updatedBoard : b)));
   };

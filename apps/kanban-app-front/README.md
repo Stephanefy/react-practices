@@ -14,11 +14,12 @@ A work-in-progress Kanban board application built with React, TypeScript, and Ta
 - Responsive layout
 - Sidebar navigation
 - Modal system for various operations
+- CRUD (Task addition | Task deletion)
 
 ### In Progress/Planned
 
-- Drag & drop functionality (partially implemented)
-- Task CRUD operations (basic create/edit in progress)
+- Drag & drop functionality (Improve precision of the drop event)
+- Task CRUD operations (edit task, completion status and content edition)
 - Board management features
 - Better mobile experience
 - Search and filtering capabilities

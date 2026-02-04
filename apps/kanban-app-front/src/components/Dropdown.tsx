@@ -6,7 +6,7 @@ import {
   ChevronUpDownIcon,
   CheckIcon,
 } from '@heroicons/react/20/solid';
-import { Task } from '../context/AppContext';
+import { Task } from '../types';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');

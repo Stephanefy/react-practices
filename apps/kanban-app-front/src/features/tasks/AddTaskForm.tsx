@@ -3,70 +3,18 @@ import { Column, SubTask, Task } from '../../types';
 import { nanoid } from 'nanoid';
 import { AppContext } from '../../context/AppContext';
 import { ModalContext, ModalActionType } from '../../context/ModalContext';
-import { api } from '../../api/axios';
 import { getBoards } from '../../services/boardServices';
+import { createNewTask } from '../../api/tasks/tasks';
 
-interface FormState {
+export interface FormState {
   title: string;
   description: string;
   subtasks: SubTask[];
 }
 
-interface ErrorState {
+export interface ErrorState {
   name: string;
   description: string;
-}
-
-async function createNewTask(
-  formData: FormState,
-  currentBoardNameId: string
-): Promise<[boolean, any]> {
-  const response = await api.get(`/boards/${currentBoardNameId}`);
-
-  if (!response) throw new Error('Failed to fetch board');
-
-  const board = response.data;
-
-  const todoColumn = board.columns.find(
-    (col: any) => col.id === 'col-platform-todo'
-  );
-
-  const lastTaskId = todoColumn.tasks[todoColumn.tasks.length - 1].id.replace(
-    'task-',
-    ''
-  );
-
-  const updatedTodoColumn = {
-    ...todoColumn,
-    tasks: [
-      ...todoColumn.tasks,
-      {
-        id: 'task-' + String(+lastTaskId + 1),
-        order: 0,
-        title: formData.title,
-        description: formData.description,
-        status: 'Todo',
-        columnCategory: 'Todo',
-        subtasks: formData.subtasks.length > 0 ? [...formData.subtasks] : [],
-      },
-    ],
-  };
-
-  const updateResponse = await api.put(`/boards/${currentBoardNameId}`, {
-    ...board,
-    columns: board.columns.map((col: Column) => {
-      if (col.id === updatedTodoColumn.id) {
-        return updatedTodoColumn;
-      }
-      return col;
-    }),
-  });
-
-  if (!updateResponse) {
-    return [false, null];
-  }
-
-  return [true, updatedTodoColumn];
 }
 
 export function AddTaskForm() {

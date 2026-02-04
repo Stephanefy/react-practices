@@ -1,0 +1,167 @@
+import { useContext, useState } from 'react';
+import { AppContext } from '../context/AppContext';
+import {
+  getClampedIdx,
+  getUpdatedReorderedColumn,
+  initDrag,
+} from '../utils/dnd';
+import { Column, Task } from '../types/domain';
+import { moveTaskBetweenColumns } from '../api/tasks/tasks';
+
+export const useDnd = (column: Column) => {
+  const {
+    deleteColumnFromCurrentBoard,
+    setCurrentColumn,
+    currentBoard,
+    updateCurrentBoardInBoards,
+  } = useContext(AppContext);
+
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const [draggedTask, setDraggedTask] = useState<Task | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+
+  const onDragDrop: React.DragEventHandler<HTMLDivElement> = e => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const draggedTaskData = e.dataTransfer!.getData('application/json');
+
+    if (!draggedTaskData || !currentBoard) return;
+
+    const draggedTaskFromEvent = JSON.parse(draggedTaskData) as Task;
+
+    const targetColumn = column;
+
+    if (!targetColumn) return;
+
+    const sourceColumn = currentBoard.columns.find(col =>
+      col.tasks.some(t => t.id === draggedTaskFromEvent.id)
+    );
+
+    if (sourceColumn!.id === targetColumn.id) {
+      // REORDER LOGIC - same column, swap tasks by index
+
+      if (dragOverIndex === null) return;
+
+      const validDropIndex = Math.min(
+        dragOverIndex,
+        sourceColumn!.tasks.length - 1
+      );
+
+      const draggedTaskIndex = sourceColumn!.tasks.findIndex(
+        t => t.id === draggedTaskFromEvent.id
+      );
+
+      if (draggedTaskIndex === validDropIndex) {
+        setDragOverIndex(null);
+        return;
+      }
+
+      const updatedBoard = getUpdatedReorderedColumn(
+        sourceColumn!,
+        draggedTaskIndex,
+        validDropIndex,
+        currentBoard
+      );
+
+      updateCurrentBoardInBoards(updatedBoard!);
+      setDraggedTask(null);
+      setDragOverIndex(null);
+    } else {
+      // DRAG TO ANOTHER COLUMN
+      // single update to counter React batch udpate
+      if (!sourceColumn || sourceColumn.id === targetColumn.id) return;
+
+      const updatedBoard = {
+        ...currentBoard,
+        columns: currentBoard.columns.map(col => {
+          if (col.id === sourceColumn.id) {
+            return {
+              ...col,
+              tasks: col.tasks.filter(t => t.id !== draggedTaskFromEvent.id),
+            };
+          }
+          if (col.id === targetColumn.id) {
+            return {
+              ...col,
+              tasks: [...col.tasks, draggedTaskFromEvent],
+            };
+          }
+          return col;
+        }),
+      };
+
+      // Update local state first for immediate UI feedback
+      updateCurrentBoardInBoards(updatedBoard);
+
+      // Persist to database with the same updated board
+      moveTaskBetweenColumns(
+        currentBoard.id,
+        sourceColumn.id,
+        targetColumn.id,
+        draggedTaskFromEvent.id! as string,
+        draggedTaskFromEvent,
+        updatedBoard
+      ).catch(error => {
+        console.error('Failed to move task:', error);
+        // Optionally: revert the state change if API fails
+      });
+
+      setDraggedTask(null);
+      setDragOverIndex(null);
+    }
+  };
+
+  const onDragEnd: React.DragEventHandler<HTMLDivElement> = e => {
+    setDraggedTask(null);
+    setDragOverIndex(null);
+  };
+
+  const onDragStart: React.DragEventHandler<HTMLDivElement> = e => {
+    const task = initDrag(e, column.tasks);
+    setDraggedTask(task!);
+  };
+
+  const onDragOver: React.DragEventHandler<HTMLDivElement> = e => {
+    e.preventDefault();
+
+    const cardElement = (e.currentTarget as HTMLElement).closest(
+      '[data-orderidx]'
+    );
+
+    if (!cardElement) return;
+    const rect = cardElement.getBoundingClientRect();
+
+    // 1. Get mouse position relative to the element's top edge
+    const hoverClientY = e.clientY - rect.top;
+
+    // 2. Calculate the midpoint height of the element
+    const hoverMiddleY = rect.height / 2;
+
+    const clampedIndex = getClampedIdx(
+      cardElement,
+      hoverClientY,
+      hoverMiddleY,
+      column.tasks
+    );
+
+    setDragOverIndex(clampedIndex!);
+  };
+
+  return {
+    isHovered,
+    setIsHovered,
+    draggedTask,
+    setDraggedTask,
+    dragOverIndex,
+    setDragOverIndex,
+    onDragDrop,
+    onDragEnd,
+    onDragStart,
+    onDragOver,
+    deleteColumnFromCurrentBoard,
+    setCurrentColumn,
+    currentBoard,
+    updateCurrentBoardInBoards,
+  };
+};

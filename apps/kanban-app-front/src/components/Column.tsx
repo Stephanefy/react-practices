@@ -3,11 +3,8 @@ import { type Column, type Task } from '../types';
 import { forwardRef, useContext, useState } from 'react';
 import CrossSvg from './svg/CrossSvg';
 import { AppContext } from '../context/AppContext';
-import {
-  getClampedIdx,
-  getUpdatedReorderedColumn,
-  initDrag,
-} from '../utils/dnd';
+import { getClampedIdx, initDrag } from '../utils/dnd';
+import { useDnd } from '../hooks/useDnd';
 
 interface ColumnProps {
   column: Column;
@@ -17,20 +14,20 @@ interface ColumnProps {
 
 const Column = forwardRef<HTMLElement, ColumnProps>(
   (props: ColumnProps, ref) => {
-    const {
-      deleteColumnFromCurrentBoard,
-      setCurrentColumn,
-      currentBoard,
-      updateCurrentBoardInBoards,
-    } = useContext(AppContext);
-
     const [isEditingColumn, setIsEditingColumn] = useState<boolean>(false);
     const [newColumnName, setNewColumnName] = useState<string>(
       props.column.name
     );
     const [isHovered, setIsHovered] = useState<boolean>(false);
-    const [draggedTask, setDraggedTask] = useState<Task | null>(null);
-    const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+    const {
+      onDragDrop,
+      onDragOver,
+      onDragEnd,
+      onDragStart,
+      draggedTask,
+      deleteColumnFromCurrentBoard,
+      setCurrentColumn,
+    } = useDnd(props.column);
 
     const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (newColumnName.length === 0) {
@@ -56,121 +53,6 @@ const Column = forwardRef<HTMLElement, ColumnProps>(
 
     const changeIsHoveredStyle = () => {
       setIsHovered(prev => !prev);
-    };
-
-    const onDragStart: React.DragEventHandler<HTMLDivElement> = e => {
-      const task = initDrag(e, props.column.tasks);
-      setDraggedTask(task!);
-    };
-
-    const onDragOver: React.DragEventHandler<HTMLDivElement> = e => {
-      e.preventDefault();
-
-      const cardElement = (e.currentTarget as HTMLElement).closest(
-        '[data-orderidx]'
-      );
-
-      if (!cardElement) return;
-      const rect = cardElement.getBoundingClientRect();
-
-      // 1. Get mouse position relative to the element's top edge
-      const hoverClientY = e.clientY - rect.top;
-
-      // 2. Calculate the midpoint height of the element
-      const hoverMiddleY = rect.height / 2;
-
-      const clampedIndex = getClampedIdx(
-        cardElement,
-        hoverClientY,
-        hoverMiddleY,
-        props.column.tasks
-      );
-
-      setDragOverIndex(clampedIndex!);
-    };
-
-    const onDragEnd: React.DragEventHandler<HTMLDivElement> = e => {
-      setDraggedTask(null);
-      setDragOverIndex(null);
-    };
-
-    const onDragDrop: React.DragEventHandler<HTMLDivElement> = e => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      const draggedTaskData = e.dataTransfer!.getData('application/json');
-
-      if (!draggedTaskData || !currentBoard) return;
-
-      const draggedTaskFromEvent = JSON.parse(draggedTaskData) as Task;
-
-      const columnName = e.currentTarget!.id.split('-')[1];
-
-      const targetColumn = currentBoard.columns.find(
-        column => column.name === columnName
-      );
-
-      if (!targetColumn) return;
-
-      const sourceColumn = currentBoard.columns.find(col =>
-        col.tasks.some(t => t.id === draggedTaskFromEvent.id)
-      );
-
-      if (sourceColumn!.id === targetColumn.id) {
-        // REORDER LOGIC - same column, swap tasks by index
-
-        if (dragOverIndex === null) return;
-
-        const validDropIndex = Math.min(
-          dragOverIndex,
-          sourceColumn!.tasks.length - 1
-        );
-
-        const draggedTaskIndex = sourceColumn!.tasks.findIndex(
-          t => t.id === draggedTaskFromEvent.id
-        );
-
-        if (draggedTaskIndex === validDropIndex) {
-          setDragOverIndex(null);
-          return;
-        }
-
-        const updatedBoard = getUpdatedReorderedColumn(
-          sourceColumn!,
-          draggedTaskIndex,
-          validDropIndex,
-          currentBoard
-        );
-
-        updateCurrentBoardInBoards(updatedBoard!);
-        setDraggedTask(null);
-        setDragOverIndex(null);
-      } else {
-        // DRAG TO ANOTHER COLUMN
-        // single update to counter React batch udpate
-        if (!sourceColumn || sourceColumn.id === targetColumn.id) return;
-
-        const updatedBoard = {
-          ...currentBoard,
-          columns: currentBoard.columns.map(col => {
-            if (col.id === sourceColumn.id) {
-              return {
-                ...col,
-                tasks: col.tasks.filter(t => t.id !== draggedTaskFromEvent.id),
-              };
-            }
-            if (col.id === targetColumn.id) {
-              return {
-                ...col,
-                tasks: [...col.tasks, draggedTaskFromEvent],
-              };
-            }
-            return col;
-          }),
-        };
-        updateCurrentBoardInBoards(updatedBoard);
-        setDraggedTask(null);
-      }
     };
 
     return (
