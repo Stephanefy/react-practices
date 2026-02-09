@@ -1,12 +1,13 @@
 import { api } from '../axios';
 import { FormState } from '../../features/tasks/AddTaskForm';
 import { Column, Task } from '../../types';
+import { nanoid } from 'nanoid';
 
 export const createNewTask = async (
   formData: FormState,
-  currentBoardNameId: string
+  currentBoardId: string
 ): Promise<[boolean, any]> => {
-  const response = await api.get(`/boards/${currentBoardNameId}`);
+  const response = await api.get(`/boards/${currentBoardId}`);
 
   if (!response) throw new Error('Failed to fetch board');
 
@@ -24,7 +25,7 @@ export const createNewTask = async (
     tasks: [
       ...todoColumn.tasks,
       {
-        id: 'task-' + String(+lastTaskId + 1),
+        id: 'task-' + nanoid(),
         order: 0,
         title: formData.title,
         description: formData.description,
@@ -35,7 +36,7 @@ export const createNewTask = async (
     ],
   };
 
-  const updateResponse = await api.put(`/boards/${currentBoardNameId}`, {
+  const updateResponse = await api.put(`/boards/${currentBoardId}`, {
     ...board,
     columns: board.columns.map((col: Column) => {
       if (col.id === updatedTodoColumn.id) {

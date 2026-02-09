@@ -3,12 +3,13 @@ import { AppContext } from '../context/AppContext';
 import {
   getClampedIdx,
   getUpdatedReorderedColumn,
-  initDrag,
+  initDragTask,
+  initDragColumn,
 } from '../utils/dnd';
-import { Column, Task } from '../types/domain';
+import { Board, Column, Task } from '../types/domain';
 import { moveTaskBetweenColumns } from '../api/tasks/tasks';
 
-export const useDnd = (column: Column) => {
+export const useDnd = (element: Board | Column) => {
   const {
     deleteColumnFromCurrentBoard,
     setCurrentColumn,
@@ -18,9 +19,10 @@ export const useDnd = (column: Column) => {
 
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [draggedTask, setDraggedTask] = useState<Task | null>(null);
+  const [draggedColumn, setDraggedColumn] = useState<Column | null>(null);
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
-  const onDragDrop: React.DragEventHandler<HTMLDivElement> = e => {
+  const onDragDropTask: React.DragEventHandler<HTMLDivElement> = e => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -30,15 +32,13 @@ export const useDnd = (column: Column) => {
 
     const draggedTaskFromEvent = JSON.parse(draggedTaskData) as Task;
 
-    const targetColumn = column;
-
-    if (!targetColumn) return;
+    const targetColumn = element as Column;
 
     const sourceColumn = currentBoard.columns.find(col =>
       col.tasks.some(t => t.id === draggedTaskFromEvent.id)
     );
 
-    if (sourceColumn!.id === targetColumn.id) {
+    if (sourceColumn!.id === targetColumn!.id) {
       // REORDER LOGIC - same column, swap tasks by index
 
       if (dragOverIndex === null) return;
@@ -112,17 +112,20 @@ export const useDnd = (column: Column) => {
     }
   };
 
-  const onDragEnd: React.DragEventHandler<HTMLDivElement> = e => {
+  const onDragEndTask: React.DragEventHandler<HTMLDivElement> = e => {
     setDraggedTask(null);
     setDragOverIndex(null);
   };
 
-  const onDragStart: React.DragEventHandler<HTMLDivElement> = e => {
-    const task = initDrag(e, column.tasks);
-    setDraggedTask(task!);
+  const onDragStartTask: React.DragEventHandler<HTMLDivElement> = e => {
+    if ('tasks' in element) {
+      const task = initDragTask(e, element.tasks);
+      setDraggedTask(task!);
+    }
+    return null;
   };
 
-  const onDragOver: React.DragEventHandler<HTMLDivElement> = e => {
+  const onDragOverTask: React.DragEventHandler<HTMLDivElement> = e => {
     e.preventDefault();
 
     const cardElement = (e.currentTarget as HTMLElement).closest(
@@ -138,16 +141,28 @@ export const useDnd = (column: Column) => {
     // 2. Calculate the midpoint height of the element
     const hoverMiddleY = rect.height / 2;
 
+    const tasks = 'tasks' in element ? element.tasks : undefined;
+    if (!tasks) return;
+
     const clampedIndex = getClampedIdx(
       cardElement,
       hoverClientY,
       hoverMiddleY,
-      column.tasks
+      tasks
     );
 
     setDragOverIndex(clampedIndex!);
   };
 
+  const onDragStartColumn = (e: React.DragEvent<HTMLDivElement>) => {
+    const columns = 'columns' in element ? element.columns : undefined;
+
+    const draggedColumn = initDragColumn(e, columns!);
+  };
+
+  const onDragOverColumn = () => {};
+  const onDragEndColumn = () => {};
+  const onDragDropColumn = () => {};
   return {
     isHovered,
     setIsHovered,
@@ -155,10 +170,14 @@ export const useDnd = (column: Column) => {
     setDraggedTask,
     dragOverIndex,
     setDragOverIndex,
-    onDragDrop,
-    onDragEnd,
-    onDragStart,
-    onDragOver,
+    onDragDropTask,
+    onDragEndTask,
+    onDragStartTask,
+    onDragOverTask,
+    onDragStartColumn,
+    onDragOverColumn,
+    onDragEndColumn,
+    onDragDropColumn,
     deleteColumnFromCurrentBoard,
     setCurrentColumn,
     currentBoard,

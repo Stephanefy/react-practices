@@ -1,6 +1,5 @@
 import { useContext, useRef, useState, useEffect } from 'react';
 import data from '../assets/data.json';
-import Kanbancard from './Kanbancard';
 import PortalModal from './modals/Modal';
 import { ModalActionType, ModalContext } from '../context/ModalContext';
 import MobileMenu from './MobileMenu';
@@ -13,7 +12,8 @@ import EditBoard from './EditBoard';
 import clsx from 'clsx';
 import Column from './Column';
 import { AppContext } from '../context/AppContext';
-
+import { useDnd } from '../hooks/useDnd';
+import { type Board } from '../types/domain';
 type Props = {
   setSidebarHeight: (height: number) => void;
   hideSideBar: boolean;
@@ -22,8 +22,15 @@ type Props = {
 const Board = (props: Props) => {
   const { currentBoard, addColumnToCurrentBoard } = useContext(AppContext);
   const { state: showModal, dispatch: setShowModal } = useContext(ModalContext);
+  const {
+    onDragStartColumn,
+    onDragOverColumn,
+    onDragEndColumn,
+    onDragDropColumn,
+  } = useDnd(currentBoard as Board);
 
   const boardsListRef = useRef<HTMLElement>(null);
+  const currentBoardRef = useRef<HTMLDivElement>(null);
 
   const [boardsListHeight, setBoardingListHeight] = useState<number>(0);
 
@@ -46,6 +53,8 @@ const Board = (props: Props) => {
   return (
     <>
       <div
+        ref={currentBoardRef}
+        id={`board-${currentBoard?.id}`}
         className={clsx(
           'flex min-h-screen flex-1 overflow-hidden bg-secondary-gray pb-16 pt-[150px] text-5xl md:px-16',
           {
@@ -66,6 +75,8 @@ const Board = (props: Props) => {
           {(currentBoard?.columns.length ?? 0) > 0 ? (
             currentBoard?.columns.map((column, index) => (
               <Column
+                onDragStart={onDragStartColumn}
+                onDragEnd={onDragEndColumn}
                 key={column.id}
                 column={column}
                 index={index}

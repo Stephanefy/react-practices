@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 import { getBoards } from '../services/boardServices';
 import { type Board, type Column, type Task } from '../types';
 import { deleteTaskFromColumn } from '../api/tasks/tasks';
+import { updateColumn } from '../api/columns/columns';
 
 async function getInitialBoards() {
   const data = await getBoards();
@@ -63,7 +64,7 @@ export const AppContextProvider = ({
   const [currentSelectedColumn, setCurrentSelectedColumn] =
     useState<Column | null>(null);
 
-  const setCurrentColumn = (
+  const setCurrentColumn = async (
     columnId: string,
     payload: string | Task | Task[]
   ) => {
@@ -75,7 +76,10 @@ export const AppContextProvider = ({
     const updatedColumn = {
       ...column,
       ...(typeof payload === 'string'
-        ? { name: payload }
+        ? {
+            id: `col-${currentBoard?.name.replace(' ', '-').toLowerCase()}-${payload.toLowerCase()}`,
+            name: payload,
+          }
         : {
             tasks: Array.isArray(payload)
               ? payload
@@ -94,6 +98,8 @@ export const AppContextProvider = ({
 
     setCurrentBoard(updatedBoard);
     setBoards(boards.map(b => (b.id === currentBoard?.id ? updatedBoard : b)));
+
+    await updateColumn(currentBoard!.id, updatedBoard);
   };
 
   useEffect(() => {

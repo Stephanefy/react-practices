@@ -5,83 +5,20 @@
       "name": "Platform Launch",
       "columns": [
         {
-          "id": "W7ovSSmrHBbv6t7NQnAPE",
-          "name": "New Column",
+          "id": "col-platform-launch-new",
+          "name": "new",
           "tasks": [
             {
-              "id": "task-9",
-              "order": 0,
-              "title": "fdsfd",
-              "description": "fsdfds",
-              "status": "Todo",
-              "columnCategory": "Todo",
-              "subtasks": []
-            },
-            {
-              "id": "task-10",
-              "order": 0,
-              "title": "testtttt",
-              "description": "",
-              "status": "Todo",
-              "columnCategory": "Todo",
-              "subtasks": []
-            },
-            {
-              "id": "task-11",
-              "order": 0,
-              "title": "testfsdfsd",
-              "description": "",
-              "status": "Todo",
-              "columnCategory": "Todo",
-              "subtasks": []
-            }
-          ]
-        },
-        {
-          "id": "col-platform-todo",
-          "name": "Important",
-          "tasks": [
-            {
-              "id": "task-4",
-              "order": 4,
-              "title": "QA and test all major user journeys",
-              "description": "Once we feel version one is ready, we need to rigorously test it both internally and externally to identify any major gaps.",
-              "status": "Todo",
-              "columnCategory": "Todo",
-              "subtasks": [
-                {
-                  "id": "subtask-4-1",
-                  "title": "Internal testing",
-                  "isCompleted": false
-                },
-                {
-                  "id": "subtask-4-2",
-                  "title": "External testing",
-                  "isCompleted": false
-                }
-              ]
-            },
-            {
-              "id": "task-1",
-              "order": 1,
-              "title": "Build UI for onboarding flow",
+              "id": "task-2",
+              "order": 2,
+              "title": "Build UI for search",
               "description": "",
               "status": "Todo",
               "columnCategory": "Todo",
               "subtasks": [
                 {
-                  "id": "subtask-1-1",
-                  "title": "Sign up page",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-1-2",
-                  "title": "Sign in page",
-                  "isCompleted": false
-                },
-                {
-                  "id": "subtask-1-3",
-                  "title": "Welcome page",
+                  "id": "subtask-2-1",
+                  "title": "Search page",
                   "isCompleted": false
                 }
               ]
@@ -107,22 +44,22 @@
               ]
             },
             {
-              "id": "task-18",
-              "order": 8,
-              "title": "Research the market",
-              "description": "We need to get a solid overview of the market to ensure we have up-to-date estimates of market size and demand.",
-              "status": "Done",
-              "columnCategory": "Done",
+              "id": "task-4",
+              "order": 4,
+              "title": "QA and test all major user journeys",
+              "description": "Once we feel version one is ready, we need to rigorously test it both internally and externally to identify any major gaps.",
+              "status": "Todo",
+              "columnCategory": "Todo",
               "subtasks": [
                 {
-                  "id": "subtask-18-1",
-                  "title": "Write up research analysis",
-                  "isCompleted": true
+                  "id": "subtask-4-1",
+                  "title": "Internal testing",
+                  "isCompleted": false
                 },
                 {
-                  "id": "subtask-18-2",
-                  "title": "Calculate TAM",
-                  "isCompleted": true
+                  "id": "subtask-4-2",
+                  "title": "External testing",
+                  "isCompleted": false
                 }
               ]
             },
@@ -142,169 +79,6 @@
                 {
                   "id": "subtask-8-2",
                   "title": "Define search filters",
-                  "isCompleted": false
-                }
-              ]
-            },
-            {
-              "id": "task-9",
-              "order": 0,
-              "title": "tes",
-              "description": "fsdfdsfs",
-              "status": "Todo",
-              "columnCategory": "Todo",
-              "subtasks": []
-            },
-            {
-              "id": "task-10",
-              "order": 0,
-              "title": "test",
-              "description": "fdsfdsf",
-              "status": "Todo",
-              "columnCategory": "Todo",
-              "subtasks": []
-            },
-            {
-              "id": "task-11",
-              "order": 0,
-              "title": "Test 2",
-              "description": "",
-              "status": "Todo",
-              "columnCategory": "Todo",
-              "subtasks": []
-            }
-          ]
-        },
-        {
-          "id": "col-platform-doing",
-          "name": "Doing",
-          "tasks": [
-            {
-              "id": "task-9",
-              "order": 5,
-              "title": "Add authentication endpoints",
-              "description": "",
-              "status": "Doing",
-              "columnCategory": "Doing",
-              "subtasks": [
-                {
-                  "id": "subtask-9-1",
-                  "title": "Define user model",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-9-2",
-                  "title": "Add auth endpoints",
-                  "isCompleted": false
-                }
-              ]
-            },
-            {
-              "id": "task-2",
-              "order": 2,
-              "title": "Build UI for search",
-              "description": "",
-              "status": "Todo",
-              "columnCategory": "Todo",
-              "subtasks": [
-                {
-                  "id": "subtask-2-1",
-                  "title": "Search page",
-                  "isCompleted": false
-                }
-              ]
-            },
-            {
-              "id": "task-17",
-              "order": 7,
-              "title": "Research the market",
-              "description": "We need to get a solid overview of the market to ensure we have up-to-date estimates of market size and demand.",
-              "status": "Done",
-              "columnCategory": "Done",
-              "subtasks": [
-                {
-                  "id": "subtask-17-1",
-                  "title": "Write up research analysis",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-17-2",
-                  "title": "Calculate TAM",
-                  "isCompleted": true
-                }
-              ]
-            },
-            {
-              "id": "task-6",
-              "order": 2,
-              "title": "Add account management endpoints",
-              "description": "",
-              "status": "Doing",
-              "columnCategory": "Doing",
-              "subtasks": [
-                {
-                  "id": "subtask-6-1",
-                  "title": "Upgrade plan",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-6-2",
-                  "title": "Cancel plan",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-6-3",
-                  "title": "Update payment method",
-                  "isCompleted": false
-                }
-              ]
-            },
-            {
-              "id": "task-5",
-              "order": 1,
-              "title": "Design settings and search pages",
-              "description": "",
-              "status": "Doing",
-              "columnCategory": "Doing",
-              "subtasks": [
-                {
-                  "id": "subtask-5-1",
-                  "title": "Settings - Account page",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-5-2",
-                  "title": "Settings - Billing page",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-5-3",
-                  "title": "Search page",
-                  "isCompleted": false
-                }
-              ]
-            },
-            {
-              "id": "task-10",
-              "order": 6,
-              "title": "Research pricing points of various competitors and trial different business models",
-              "description": "We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.",
-              "status": "Doing",
-              "columnCategory": "Doing",
-              "subtasks": [
-                {
-                  "id": "subtask-10-1",
-                  "title": "Research competitor pricing and business models",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-10-2",
-                  "title": "Outline a business model that works for our solution",
-                  "isCompleted": false
-                },
-                {
-                  "id": "subtask-10-3",
-                  "title": "Talk to potential customers about our proposed solution and ask for fair price expectancy",
                   "isCompleted": false
                 }
               ]
@@ -352,7 +126,183 @@
           ]
         },
         {
-          "id": "col-platform-done",
+          "id": "col-platform-launch-test",
+          "name": "Test",
+          "tasks": [
+            {
+              "id": "task-5",
+              "order": 1,
+              "title": "Design settings and search pages",
+              "description": "",
+              "status": "Doing",
+              "columnCategory": "Doing",
+              "subtasks": [
+                {
+                  "id": "subtask-5-1",
+                  "title": "Settings - Account page",
+                  "isCompleted": true
+                },
+                {
+                  "id": "subtask-5-2",
+                  "title": "Settings - Billing page",
+                  "isCompleted": true
+                },
+                {
+                  "id": "subtask-5-3",
+                  "title": "Search page",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "id": "task-1",
+              "order": 1,
+              "title": "Build UI for onboarding flow",
+              "description": "",
+              "status": "Todo",
+              "columnCategory": "Todo",
+              "subtasks": [
+                {
+                  "id": "subtask-1-1",
+                  "title": "Sign up page",
+                  "isCompleted": true
+                },
+                {
+                  "id": "subtask-1-2",
+                  "title": "Sign in page",
+                  "isCompleted": false
+                },
+                {
+                  "id": "subtask-1-3",
+                  "title": "Welcome page",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "id": "task-KMKBiTMSwQgnj0GbFFHE-",
+              "order": 0,
+              "title": "test-1",
+              "description": "",
+              "status": "Todo",
+              "columnCategory": "Todo",
+              "subtasks": []
+            }
+          ]
+        },
+        {
+          "id": "col-platform-launch-doing",
+          "name": "Doing",
+          "tasks": [
+            {
+              "id": "task-10",
+              "order": 6,
+              "title": "Research pricing points of various competitors and trial different business models",
+              "description": "We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.",
+              "status": "Doing",
+              "columnCategory": "Doing",
+              "subtasks": [
+                {
+                  "id": "subtask-10-1",
+                  "title": "Research competitor pricing and business models",
+                  "isCompleted": true
+                },
+                {
+                  "id": "subtask-10-2",
+                  "title": "Outline a business model that works for our solution",
+                  "isCompleted": false
+                },
+                {
+                  "id": "subtask-10-3",
+                  "title": "Talk to potential customers about our proposed solution and ask for fair price expectancy",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "id": "task-16",
+              "order": 6,
+              "title": "Competitor analysis",
+              "description": "",
+              "status": "Done",
+              "columnCategory": "Done",
+              "subtasks": [
+                {
+                  "id": "subtask-16-1",
+                  "title": "Find direct and indirect competitors",
+                  "isCompleted": true
+                },
+                {
+                  "id": "subtask-16-2",
+                  "title": "SWOT analysis for each competitor",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "id": "task-18",
+              "order": 8,
+              "title": "Research the market",
+              "description": "We need to get a solid overview of the market to ensure we have up-to-date estimates of market size and demand.",
+              "status": "Done",
+              "columnCategory": "Done",
+              "subtasks": [
+                {
+                  "id": "subtask-18-1",
+                  "title": "Write up research analysis",
+                  "isCompleted": true
+                },
+                {
+                  "id": "subtask-18-2",
+                  "title": "Calculate TAM",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "id": "task-6",
+              "order": 2,
+              "title": "Add account management endpoints",
+              "description": "",
+              "status": "Doing",
+              "columnCategory": "Doing",
+              "subtasks": [
+                {
+                  "id": "subtask-6-1",
+                  "title": "Upgrade plan",
+                  "isCompleted": true
+                },
+                {
+                  "id": "subtask-6-2",
+                  "title": "Cancel plan",
+                  "isCompleted": true
+                },
+                {
+                  "id": "subtask-6-3",
+                  "title": "Update payment method",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "id": "task-15",
+              "order": 5,
+              "title": "Market discovery",
+              "description": "We need to define and refine our core product. Interviews will help us learn common pain points and help us define the strongest MVP.",
+              "status": "Done",
+              "columnCategory": "Done",
+              "subtasks": [
+                {
+                  "id": "subtask-15-1",
+                  "title": "Interview 10 prospective customers",
+                  "isCompleted": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "col-platform-launch-done",
           "name": "Done",
           "tasks": [
             {
@@ -416,62 +366,22 @@
               ]
             },
             {
-              "id": "task-15",
-              "order": 5,
-              "title": "Market discovery",
-              "description": "We need to define and refine our core product. Interviews will help us learn common pain points and help us define the strongest MVP.",
+              "id": "task-17",
+              "order": 7,
+              "title": "Research the market",
+              "description": "We need to get a solid overview of the market to ensure we have up-to-date estimates of market size and demand.",
               "status": "Done",
               "columnCategory": "Done",
               "subtasks": [
                 {
-                  "id": "subtask-15-1",
-                  "title": "Interview 10 prospective customers",
-                  "isCompleted": true
-                }
-              ]
-            },
-            {
-              "id": "task-16",
-              "order": 6,
-              "title": "Competitor analysis",
-              "description": "",
-              "status": "Done",
-              "columnCategory": "Done",
-              "subtasks": [
-                {
-                  "id": "subtask-16-1",
-                  "title": "Find direct and indirect competitors",
+                  "id": "subtask-17-1",
+                  "title": "Write up research analysis",
                   "isCompleted": true
                 },
                 {
-                  "id": "subtask-16-2",
-                  "title": "SWOT analysis for each competitor",
+                  "id": "subtask-17-2",
+                  "title": "Calculate TAM",
                   "isCompleted": true
-                }
-              ]
-            },
-            {
-              "id": "task-5",
-              "order": 1,
-              "title": "Design settings and search pages",
-              "description": "",
-              "status": "Doing",
-              "columnCategory": "Doing",
-              "subtasks": [
-                {
-                  "id": "subtask-5-1",
-                  "title": "Settings - Account page",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-5-2",
-                  "title": "Settings - Billing page",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-5-3",
-                  "title": "Search page",
-                  "isCompleted": false
                 }
               ]
             }
@@ -484,8 +394,53 @@
       "name": "Marketing Plan",
       "columns": [
         {
-          "id": "col-marketing-todo",
+          "id": "col-marketing-plan-todo",
           "name": "Todo",
+          "tasks": []
+        },
+        {
+          "id": "col-marketing-plan-doing",
+          "name": "Doing",
+          "tasks": [
+            {
+              "id": "task-NaN",
+              "order": 0,
+              "title": "test",
+              "description": "",
+              "status": "Todo",
+              "columnCategory": "Todo",
+              "subtasks": []
+            },
+            {
+              "id": "task-m2",
+              "order": 2,
+              "title": "Share on Show HN",
+              "description": "",
+              "status": "Todo",
+              "columnCategory": "Todo",
+              "subtasks": [
+                {
+                  "id": "subtask-m2-1",
+                  "title": "Draft out HN post",
+                  "isCompleted": false
+                },
+                {
+                  "id": "subtask-m2-2",
+                  "title": "Get feedback and refine",
+                  "isCompleted": false
+                },
+                {
+                  "id": "subtask-m2-3",
+                  "title": "Publish post",
+                  "isCompleted": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "col-marketing-plan-done",
+          "name": "Done",
           "tasks": [
             {
               "id": "task-m1",
@@ -553,51 +508,6 @@
                 {
                   "id": "subtask-m3-4",
                   "title": "Publish on Medium",
-                  "isCompleted": false
-                }
-              ]
-            },
-            {
-              "id": "task-NaN",
-              "order": 0,
-              "title": "test",
-              "description": "",
-              "status": "Todo",
-              "columnCategory": "Todo",
-              "subtasks": []
-            }
-          ]
-        },
-        {
-          "id": "col-marketing-doing",
-          "name": "Doing",
-          "tasks": []
-        },
-        {
-          "id": "col-marketing-done",
-          "name": "Done",
-          "tasks": [
-            {
-              "id": "task-m2",
-              "order": 2,
-              "title": "Share on Show HN",
-              "description": "",
-              "status": "Todo",
-              "columnCategory": "Todo",
-              "subtasks": [
-                {
-                  "id": "subtask-m2-1",
-                  "title": "Draft out HN post",
-                  "isCompleted": false
-                },
-                {
-                  "id": "subtask-m2-2",
-                  "title": "Get feedback and refine",
-                  "isCompleted": false
-                },
-                {
-                  "id": "subtask-m2-3",
-                  "title": "Publish post",
                   "isCompleted": false
                 }
               ]

@@ -6,6 +6,8 @@ import { AppContext } from '../context/AppContext';
 import { useDnd } from '../hooks/useDnd';
 
 interface ColumnProps {
+  onDragStart: React.DragEventHandler<HTMLDivElement>;
+  onDragEnd: React.DragEventHandler<HTMLDivElement>;
   column: Column;
   columns: Column[];
   index: number;
@@ -18,11 +20,13 @@ const Column = forwardRef<HTMLElement, ColumnProps>(
       props.column.name
     );
     const [isHovered, setIsHovered] = useState<boolean>(false);
+
+    const { currentBoard } = useContext(AppContext);
     const {
-      onDragDrop,
-      onDragOver,
-      onDragEnd,
-      onDragStart,
+      onDragDropTask,
+      onDragOverTask,
+      onDragEndTask,
+      onDragStartTask,
       draggedTask,
       deleteColumnFromCurrentBoard,
       setCurrentColumn,
@@ -56,12 +60,15 @@ const Column = forwardRef<HTMLElement, ColumnProps>(
 
     return (
       <section
-        id={`column-${props.column.name}`}
-        onDrop={onDragDrop}
-        onDragOver={onDragOver}
-        onDrag={onDragEnd}
+        draggable={true}
+        id={`col-${currentBoard?.name.replace(' ', '-').toLowerCase()}-${props.column.name.toLowerCase()}`}
+        onDrop={onDragDropTask}
+        onDragOver={onDragOverTask}
+        onDrag={onDragEndTask}
+        onDragStart={props.onDragStart}
+        onDragEnd={props.onDragEnd}
         ref={ref}
-        className={`mr-4 w-64 rounded-lg bg-red-800/10 p-4`}
+        className={`mr-4 w-64 cursor-grab rounded-lg bg-red-800/10 p-4`}
         onMouseEnter={changeIsHoveredStyle}
         onMouseLeave={changeIsHoveredStyle}
       >
@@ -81,7 +88,7 @@ const Column = forwardRef<HTMLElement, ColumnProps>(
                 <input
                   onKeyDown={onKeyDown}
                   type="text"
-                  className="h-6 w-[150px] border-none bg-transparent px-4 outline-none ring-0 focus:border-none focus:outline-none focus:ring-0"
+                  className="h-6 w-[150px] border-none bg-transparent pl-0 outline-none ring-0 focus:border-none focus:outline-none focus:ring-0"
                   value={newColumnName}
                   onChange={updateColumnName}
                 />
@@ -110,9 +117,9 @@ const Column = forwardRef<HTMLElement, ColumnProps>(
             <Kanbancard
               key={task.id}
               columnId={props.column.id}
-              onDragStart={onDragStart}
-              onDragOver={onDragOver}
-              onDragEnd={onDragEnd}
+              onDragStart={onDragStartTask}
+              onDragOver={onDragOverTask}
+              onDragEnd={onDragEndTask}
               order={task.order}
               id={task.id}
               title={task.title}

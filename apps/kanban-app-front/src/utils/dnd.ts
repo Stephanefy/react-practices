@@ -1,13 +1,14 @@
 import React from 'react';
 import { Column, Task } from '../types';
 
-export const initDrag = (e: React.DragEvent<HTMLDivElement>, tasks: Task[]) => {
+export const initDragTask = (
+  e: React.DragEvent<HTMLDivElement>,
+  tasks: Task[]
+) => {
+  e.stopPropagation();
   const taskId = (e.currentTarget as HTMLDivElement).getAttribute(
     'data-task-id'
   );
-
-  const sourceColumnName =
-    e.currentTarget.parentElement!.parentElement!.id.split('_')[1];
 
   const task = tasks.find(t => t.id === taskId);
   if (task) {
@@ -20,6 +21,21 @@ export const initDrag = (e: React.DragEvent<HTMLDivElement>, tasks: Task[]) => {
   return task;
 };
 
+export const initDragColumn = (
+  e: React.DragEvent<HTMLDivElement>,
+  columns: Column[]
+) => {
+  e.stopPropagation();
+  const columnId = (e.currentTarget as HTMLDivElement).getAttribute('id');
+
+  const column = columns.find(col => col.id === columnId);
+  if (columnId) {
+    e.dataTransfer!.effectAllowed = 'move';
+    e.dataTransfer!.setData('application/json', JSON.stringify(column));
+    // Keep this for visual feedback only
+  }
+  return columnId;
+};
 export const getClampedIdx = (
   cardElement: Element,
   hoverClientY: number,
