@@ -1,5 +1,5 @@
 import React from 'react';
-import { Column, Task } from '../types';
+import { Board, Column, Task } from '../types';
 
 export const initDragTask = (
   e: React.DragEvent<HTMLDivElement>,
@@ -34,13 +34,13 @@ export const initDragColumn = (
     e.dataTransfer!.setData('application/json', JSON.stringify(column));
     // Keep this for visual feedback only
   }
-  return columnId;
+  return column;
 };
 export const getClampedIdx = (
   cardElement: Element,
   hoverClientY: number,
   hoverMiddleY: number,
-  tasks: Task[]
+  tasks: Task[] | Column[]
 ) => {
   if (cardElement) {
     const orderIdx = parseInt(
@@ -84,4 +84,28 @@ export const getUpdatedReorderedColumn = (
   };
 
   return updatedColumn;
+};
+
+export const getUpdatedReorderedBoard = (
+  sourceBoard: Board,
+  draggedColumnIndex: number,
+  validDropIndex: number,
+  currentBoard: Board
+) => {
+  if (draggedColumnIndex === -1) return;
+
+  console.log('draggedColumnIndex', draggedColumnIndex);
+  console.log('validDropIndex', validDropIndex);
+
+  // Swap columns at draggedColumnIndex and validDropIndex
+  const reorderedColumns = [...sourceBoard.columns];
+  [reorderedColumns[draggedColumnIndex], reorderedColumns[validDropIndex]] = [
+    reorderedColumns[validDropIndex],
+    reorderedColumns[draggedColumnIndex],
+  ];
+  const updatedBoard = {
+    ...currentBoard,
+    columns: reorderedColumns,
+  };
+  return updatedBoard;
 };

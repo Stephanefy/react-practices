@@ -77,6 +77,8 @@ const Board = (props: Props) => {
               <Column
                 onDragStart={onDragStartColumn}
                 onDragEnd={onDragEndColumn}
+                onDragDrop={onDragDropColumn}
+                onDragOver={onDragOverColumn}
                 key={column.id}
                 column={column}
                 index={index}

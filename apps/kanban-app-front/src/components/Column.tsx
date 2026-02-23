@@ -6,6 +6,8 @@ import { AppContext } from '../context/AppContext';
 import { useDnd } from '../hooks/useDnd';
 
 interface ColumnProps {
+  onDragDrop: React.DragEventHandler<HTMLDivElement>;
+  onDragOver: React.DragEventHandler<HTMLDivElement>;
   onDragStart: React.DragEventHandler<HTMLDivElement>;
   onDragEnd: React.DragEventHandler<HTMLDivElement>;
   column: Column;
@@ -60,11 +62,12 @@ const Column = forwardRef<HTMLElement, ColumnProps>(
 
     return (
       <section
+        data-orderidx={props.index}
         draggable={true}
         id={`col-${currentBoard?.name.replace(' ', '-').toLowerCase()}-${props.column.name.toLowerCase()}`}
-        onDrop={onDragDropTask}
-        onDragOver={onDragOverTask}
-        onDrag={onDragEndTask}
+        onDrop={props.onDragDrop}
+        onDragOver={props.onDragOver}
+        onDrag={props.onDragEnd}
         onDragStart={props.onDragStart}
         onDragEnd={props.onDragEnd}
         ref={ref}

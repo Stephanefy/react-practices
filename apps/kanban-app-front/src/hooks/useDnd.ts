@@ -5,6 +5,7 @@ import {
   getUpdatedReorderedColumn,
   initDragTask,
   initDragColumn,
+  getUpdatedReorderedBoard,
 } from '../utils/dnd';
 import { Board, Column, Task } from '../types/domain';
 import { moveTaskBetweenColumns } from '../api/tasks/tasks';
@@ -156,13 +157,94 @@ export const useDnd = (element: Board | Column) => {
 
   const onDragStartColumn = (e: React.DragEvent<HTMLDivElement>) => {
     const columns = 'columns' in element ? element.columns : undefined;
+    console.log(columns);
 
     const draggedColumn = initDragColumn(e, columns!);
+    if (draggedColumn) {
+      setDraggedColumn(draggedColumn);
+      console.log('draggedColumn', draggedColumn);
+    }
   };
 
-  const onDragOverColumn = () => {};
-  const onDragEndColumn = () => {};
-  const onDragDropColumn = () => {};
+  const onDragOverColumn: React.DragEventHandler<HTMLDivElement> = (
+    e: React.DragEvent<HTMLDivElement>
+  ) => {
+    e.preventDefault();
+
+    const columnElement = (e.currentTarget as HTMLElement).closest(
+      '[data-orderidx]'
+    );
+
+    if (!columnElement) return;
+    const rect = columnElement.getBoundingClientRect();
+
+    // 1. Get mouse position relative to the element's top edge
+    const hoverClientY = e.clientY - rect.top;
+
+    // 2. Calculate the midpoint height of the element
+    const hoverMiddleY = rect.height / 2;
+
+    const columns = 'columns' in element ? element.columns : undefined;
+
+    const clampedIndex = getClampedIdx(
+      columnElement,
+      hoverClientY,
+      hoverMiddleY,
+      columns!
+    );
+
+    setDragOverIndex(clampedIndex!);
+  };
+  const onDragEndColumn = () => {
+    setDragOverIndex(null);
+    setDraggedColumn(null);
+  };
+  const onDragDropColumn: React.DragEventHandler<HTMLDivElement> = (
+    e: React.DragEvent<HTMLDivElement>
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const draggedColumnData = e.dataTransfer!.getData('application/json');
+
+    if (!draggedColumnData || !currentBoard) return;
+
+    const draggedColumnFromEvent = JSON.parse(draggedColumnData) as Column;
+
+    const targetColumn = element as Column;
+
+    const sourceColumn = currentBoard.columns.find(
+      col => col.id === draggedColumnFromEvent.id
+    );
+
+    if (dragOverIndex === null) return;
+
+    const validDropIndex = Math.min(
+      dragOverIndex,
+      sourceColumn!.tasks.length - 1
+    );
+
+    const draggedColumnIndex = currentBoard!.columns.findIndex(
+      t => t.id === draggedColumnFromEvent.id
+    );
+
+    if (draggedColumnIndex === validDropIndex) {
+      setDragOverIndex(null);
+      return;
+    }
+
+    const updatedBoard = getUpdatedReorderedBoard(
+      currentBoard,
+      draggedColumnIndex,
+      validDropIndex,
+      currentBoard
+    );
+
+    updateCurrentBoardInBoards(updatedBoard!);
+    setDraggedColumn(null);
+    setDragOverIndex(null);
+  };
+
   return {
     isHovered,
     setIsHovered,
