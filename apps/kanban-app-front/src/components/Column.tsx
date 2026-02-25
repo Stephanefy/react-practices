@@ -65,9 +65,37 @@ const Column = forwardRef<HTMLElement, ColumnProps>(
         data-orderidx={props.index}
         draggable={true}
         id={`col-${currentBoard?.name.replace(' ', '-').toLowerCase()}-${props.column.name.toLowerCase()}`}
-        onDrop={props.onDragDrop}
-        onDragOver={props.onDragOver}
-        onDrag={props.onDragEnd}
+        onDrop={e => {
+          const data = e.dataTransfer?.getData('application/json');
+          if (!data) return;
+          try {
+            const parsed = JSON.parse(data);
+            if ('tasks' in parsed && Array.isArray(parsed.tasks)) {
+              props.onDragDrop(e as React.DragEvent<HTMLDivElement>);
+            } else {
+              onDragDropTask(e as React.DragEvent<HTMLDivElement>);
+            }
+          } catch {
+            props.onDragDrop(e as React.DragEvent<HTMLDivElement>);
+          }
+        }}
+        onDragOver={e => {
+          const data = e.dataTransfer?.getData('application/json');
+          if (!data) {
+            props.onDragOver(e as React.DragEvent<HTMLDivElement>);
+            return;
+          }
+          try {
+            const parsed = JSON.parse(data);
+            if ('tasks' in parsed && Array.isArray(parsed.tasks)) {
+              props.onDragOver(e as React.DragEvent<HTMLDivElement>);
+            } else {
+              onDragOverTask(e as React.DragEvent<HTMLDivElement>);
+            }
+          } catch {
+            props.onDragOver(e as React.DragEvent<HTMLDivElement>);
+          }
+        }}
         onDragStart={props.onDragStart}
         onDragEnd={props.onDragEnd}
         ref={ref}

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useRef } from 'react';
 import { AppContext } from '../context/AppContext';
 import {
   getClampedIdx,
@@ -9,6 +9,7 @@ import {
 } from '../utils/dnd';
 import { Board, Column, Task } from '../types/domain';
 import { moveTaskBetweenColumns } from '../api/tasks/tasks';
+import { updateColumn } from '../api/columns/columns';
 
 export const useDnd = (element: Board | Column) => {
   const {
@@ -66,6 +67,18 @@ export const useDnd = (element: Board | Column) => {
       );
 
       updateCurrentBoardInBoards(updatedBoard!);
+
+      moveTaskBetweenColumns(
+        currentBoard.id,
+        sourceColumn!.id,
+        targetColumn.id,
+        draggedTaskFromEvent.id! as string,
+        draggedTaskFromEvent,
+        updatedBoard
+      ).catch(error => {
+        console.error('Failed to move task:', error);
+        // Optionally: revert the state change if API fails
+      });
       setDraggedTask(null);
       setDragOverIndex(null);
     } else {
@@ -114,13 +127,16 @@ export const useDnd = (element: Board | Column) => {
   };
 
   const onDragEndTask: React.DragEventHandler<HTMLDivElement> = e => {
+    e.stopPropagation();
     setDraggedTask(null);
     setDragOverIndex(null);
   };
 
   const onDragStartTask: React.DragEventHandler<HTMLDivElement> = e => {
+    e.stopPropagation();
     if ('tasks' in element) {
       const task = initDragTask(e, element.tasks);
+
       setDraggedTask(task!);
     }
     return null;
@@ -128,6 +144,7 @@ export const useDnd = (element: Board | Column) => {
 
   const onDragOverTask: React.DragEventHandler<HTMLDivElement> = e => {
     e.preventDefault();
+    e.stopPropagation();
 
     const cardElement = (e.currentTarget as HTMLElement).closest(
       '[data-orderidx]'
@@ -217,11 +234,11 @@ export const useDnd = (element: Board | Column) => {
       col => col.id === draggedColumnFromEvent.id
     );
 
-    if (dragOverIndex === null) return;
+    if (dragOverIndex === null || !sourceColumn) return;
 
     const validDropIndex = Math.min(
       dragOverIndex,
-      sourceColumn!.tasks.length - 1
+      currentBoard.columns.length - 1
     );
 
     const draggedColumnIndex = currentBoard!.columns.findIndex(
@@ -241,6 +258,9 @@ export const useDnd = (element: Board | Column) => {
     );
 
     updateCurrentBoardInBoards(updatedBoard!);
+
+    updateColumn(currentBoard!.id, updatedBoard!);
+
     setDraggedColumn(null);
     setDragOverIndex(null);
   };

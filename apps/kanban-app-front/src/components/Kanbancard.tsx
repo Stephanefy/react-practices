@@ -1,8 +1,9 @@
 import { useContext } from 'react';
-import { type Task } from '../types';
+import { Board, type Task } from '../types';
 import { AppContext } from '../context/AppContext';
 import { ModalContext, ModalActionType } from '../context/ModalContext';
 import { nanoid } from 'nanoid';
+import { useDnd } from '../hooks/useDnd';
 
 interface KanbanCardProps extends Task {
   columnId: string;

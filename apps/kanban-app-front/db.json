@@ -5,73 +5,95 @@
       "name": "Platform Launch",
       "columns": [
         {
-          "id": "col-platform-launch-new",
-          "name": "new",
+          "id": "col-platform-launch-done",
+          "name": "Done",
           "tasks": [
             {
-              "id": "task-8",
-              "order": 4,
-              "title": "Add search enpoints",
-              "description": "",
-              "status": "Doing",
-              "columnCategory": "Doing",
+              "id": "task-12",
+              "order": 2,
+              "title": "Create wireframe prototype",
+              "description": "Create a greyscale clickable wireframe prototype to test our assumptions so far.",
+              "status": "Done",
+              "columnCategory": "Done",
               "subtasks": [
                 {
-                  "id": "subtask-8-1",
-                  "title": "Add search endpoint",
+                  "id": "subtask-12-1",
+                  "title": "Create clickable wireframe prototype in Balsamiq",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "id": "task-13",
+              "order": 3,
+              "title": "Review results of usability tests and iterate",
+              "description": "Keep iterating through the subtasks until we're clear on the core concepts for the app.",
+              "status": "Done",
+              "columnCategory": "Done",
+              "subtasks": [
+                {
+                  "id": "subtask-13-1",
+                  "title": "Meet to review notes from previous tests and plan changes",
                   "isCompleted": true
                 },
                 {
-                  "id": "subtask-8-2",
-                  "title": "Define search filters",
-                  "isCompleted": false
-                }
-              ]
-            },
-            {
-              "id": "task-KMKBiTMSwQgnj0GbFFHE-",
-              "order": 0,
-              "title": "test-1",
-              "description": "",
-              "status": "Todo",
-              "columnCategory": "Todo",
-              "subtasks": []
-            },
-            {
-              "id": "task-2",
-              "order": 2,
-              "title": "Build UI for search",
-              "description": "",
-              "status": "Todo",
-              "columnCategory": "Todo",
-              "subtasks": [
-                {
-                  "id": "subtask-2-1",
-                  "title": "Search page",
-                  "isCompleted": false
-                }
-              ]
-            },
-            {
-              "id": "task-4",
-              "order": 4,
-              "title": "QA and test all major user journeys",
-              "description": "Once we feel version one is ready, we need to rigorously test it both internally and externally to identify any major gaps.",
-              "status": "Todo",
-              "columnCategory": "Todo",
-              "subtasks": [
-                {
-                  "id": "subtask-4-1",
-                  "title": "Internal testing",
-                  "isCompleted": false
+                  "id": "subtask-13-2",
+                  "title": "Make changes to paper prototypes",
+                  "isCompleted": true
                 },
                 {
-                  "id": "subtask-4-2",
-                  "title": "External testing",
-                  "isCompleted": false
+                  "id": "subtask-13-3",
+                  "title": "Conduct 5 usability tests",
+                  "isCompleted": true
                 }
               ]
             },
+            {
+              "id": "task-14",
+              "order": 4,
+              "title": "Create paper prototypes and conduct 10 usability tests with potential customers",
+              "description": "",
+              "status": "Done",
+              "columnCategory": "Done",
+              "subtasks": [
+                {
+                  "id": "subtask-14-1",
+                  "title": "Create paper prototypes for version one",
+                  "isCompleted": true
+                },
+                {
+                  "id": "subtask-14-2",
+                  "title": "Complete 10 usability tests",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "id": "task-17",
+              "order": 7,
+              "title": "Research the market",
+              "description": "We need to get a solid overview of the market to ensure we have up-to-date estimates of market size and demand.",
+              "status": "Done",
+              "columnCategory": "Done",
+              "subtasks": [
+                {
+                  "id": "subtask-17-1",
+                  "title": "Write up research analysis",
+                  "isCompleted": true
+                },
+                {
+                  "id": "subtask-17-2",
+                  "title": "Calculate TAM",
+                  "isCompleted": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "col-platform-launch-test",
+          "name": "Test",
+          "tasks": [
             {
               "id": "task-5",
               "order": 1,
@@ -118,52 +140,6 @@
               ]
             },
             {
-              "id": "task-11",
-              "order": 1,
-              "title": "Conduct 5 wireframe tests",
-              "description": "Ensure the layout continues to make sense and we have strong buy-in from potential users.",
-              "status": "Done",
-              "columnCategory": "Done",
-              "subtasks": [
-                {
-                  "id": "subtask-11-1",
-                  "title": "Complete 5 wireframe prototype tests",
-                  "isCompleted": true
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "col-platform-launch-test",
-          "name": "Test",
-          "tasks": [
-            {
-              "id": "task-1",
-              "order": 1,
-              "title": "Build UI for onboarding flow",
-              "description": "",
-              "status": "Todo",
-              "columnCategory": "Todo",
-              "subtasks": [
-                {
-                  "id": "subtask-1-1",
-                  "title": "Sign up page",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-1-2",
-                  "title": "Sign in page",
-                  "isCompleted": false
-                },
-                {
-                  "id": "subtask-1-3",
-                  "title": "Welcome page",
-                  "isCompleted": false
-                }
-              ]
-            },
-            {
               "id": "task-10",
               "order": 6,
               "title": "Research pricing points of various competitors and trial different business models",
@@ -184,6 +160,26 @@
                 {
                   "id": "subtask-10-3",
                   "title": "Talk to potential customers about our proposed solution and ask for fair price expectancy",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "id": "task-4",
+              "order": 4,
+              "title": "QA and test all major user journeys",
+              "description": "Once we feel version one is ready, we need to rigorously test it both internally and externally to identify any major gaps.",
+              "status": "Todo",
+              "columnCategory": "Todo",
+              "subtasks": [
+                {
+                  "id": "subtask-4-1",
+                  "title": "Internal testing",
+                  "isCompleted": false
+                },
+                {
+                  "id": "subtask-4-2",
+                  "title": "External testing",
                   "isCompleted": false
                 }
               ]
@@ -302,86 +298,90 @@
           ]
         },
         {
-          "id": "col-platform-launch-done",
-          "name": "Done",
+          "id": "col-platform-launch-new",
+          "name": "new",
           "tasks": [
             {
-              "id": "task-12",
-              "order": 2,
-              "title": "Create wireframe prototype",
-              "description": "Create a greyscale clickable wireframe prototype to test our assumptions so far.",
-              "status": "Done",
-              "columnCategory": "Done",
-              "subtasks": [
-                {
-                  "id": "subtask-12-1",
-                  "title": "Create clickable wireframe prototype in Balsamiq",
-                  "isCompleted": true
-                }
-              ]
-            },
-            {
-              "id": "task-13",
-              "order": 3,
-              "title": "Review results of usability tests and iterate",
-              "description": "Keep iterating through the subtasks until we're clear on the core concepts for the app.",
-              "status": "Done",
-              "columnCategory": "Done",
-              "subtasks": [
-                {
-                  "id": "subtask-13-1",
-                  "title": "Meet to review notes from previous tests and plan changes",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-13-2",
-                  "title": "Make changes to paper prototypes",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-13-3",
-                  "title": "Conduct 5 usability tests",
-                  "isCompleted": true
-                }
-              ]
-            },
-            {
-              "id": "task-14",
-              "order": 4,
-              "title": "Create paper prototypes and conduct 10 usability tests with potential customers",
+              "id": "task-KMKBiTMSwQgnj0GbFFHE-",
+              "order": 0,
+              "title": "test-1",
               "description": "",
+              "status": "Todo",
+              "columnCategory": "Todo",
+              "subtasks": []
+            },
+            {
+              "id": "task-11",
+              "order": 1,
+              "title": "Conduct 5 wireframe tests",
+              "description": "Ensure the layout continues to make sense and we have strong buy-in from potential users.",
               "status": "Done",
               "columnCategory": "Done",
               "subtasks": [
                 {
-                  "id": "subtask-14-1",
-                  "title": "Create paper prototypes for version one",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-14-2",
-                  "title": "Complete 10 usability tests",
+                  "id": "subtask-11-1",
+                  "title": "Complete 5 wireframe prototype tests",
                   "isCompleted": true
                 }
               ]
             },
             {
-              "id": "task-17",
-              "order": 7,
-              "title": "Research the market",
-              "description": "We need to get a solid overview of the market to ensure we have up-to-date estimates of market size and demand.",
-              "status": "Done",
-              "columnCategory": "Done",
+              "id": "task-8",
+              "order": 4,
+              "title": "Add search enpoints",
+              "description": "",
+              "status": "Doing",
+              "columnCategory": "Doing",
               "subtasks": [
                 {
-                  "id": "subtask-17-1",
-                  "title": "Write up research analysis",
+                  "id": "subtask-8-1",
+                  "title": "Add search endpoint",
                   "isCompleted": true
                 },
                 {
-                  "id": "subtask-17-2",
-                  "title": "Calculate TAM",
+                  "id": "subtask-8-2",
+                  "title": "Define search filters",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "id": "task-2",
+              "order": 2,
+              "title": "Build UI for search",
+              "description": "",
+              "status": "Todo",
+              "columnCategory": "Todo",
+              "subtasks": [
+                {
+                  "id": "subtask-2-1",
+                  "title": "Search page",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "id": "task-1",
+              "order": 1,
+              "title": "Build UI for onboarding flow",
+              "description": "",
+              "status": "Todo",
+              "columnCategory": "Todo",
+              "subtasks": [
+                {
+                  "id": "subtask-1-1",
+                  "title": "Sign up page",
                   "isCompleted": true
+                },
+                {
+                  "id": "subtask-1-2",
+                  "title": "Sign in page",
+                  "isCompleted": false
+                },
+                {
+                  "id": "subtask-1-3",
+                  "title": "Welcome page",
+                  "isCompleted": false
                 }
               ]
             }
