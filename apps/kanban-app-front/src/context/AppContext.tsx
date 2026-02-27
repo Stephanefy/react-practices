@@ -5,12 +5,12 @@ import { type Board, type Column, type Task } from '../types';
 import { deleteTaskFromColumn } from '../api/tasks/tasks';
 import { updateColumn } from '../api/columns/columns';
 
-async function getInitialBoards() {
+export async function getInitialBoards() {
   const data = await getBoards();
 
   return data.map((board, boardIndex) => ({
     ...board,
-    columns: board.columns.map((column: Column, columnIndex: number) => ({
+    columns: board.columns?.map((column: Column, columnIndex: number) => ({
       ...column,
       tasks: column.tasks.map(task => ({
         ...task,

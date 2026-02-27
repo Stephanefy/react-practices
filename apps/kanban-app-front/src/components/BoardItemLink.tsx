@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useRef, useEffect } from 'react';
 
 import { Board } from '../types';
 import IconBoard from '../assets/icon-board.svg';
@@ -28,6 +28,14 @@ export default function BoardItemLink({
   });
   const [currentBoardName, setCurrentBoardName] = useState<string>(board.name);
 
+  const boardNameRefInput = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (boardNameRefInput.current) {
+      boardNameRefInput.current.focus();
+    }
+  }, [chosenEdit]);
+
   const handleShowContext = () => {
     setShowContext(!showContext);
   };
@@ -42,21 +50,30 @@ export default function BoardItemLink({
     }
   };
 
+  const onDoubleClick = () => {
+    setShowContext(true);
+  };
+
   return (
     <li
       key={board.id}
       className="relative py-3 text-primary-gray hover:text-primary"
     >
-      <button onClick={() => selectBoard(board)} className="flex">
+      <button
+        onClick={() => selectBoard(board)}
+        className="flex"
+        onDoubleClick={onDoubleClick}
+      >
         <img src={IconBoard} className="mr-4 inline-block h-6 w-6" />
         {chosenEdit.id === board.id && chosenEdit.editAction === 'rename' ? (
           <span>
             <input
+              ref={boardNameRefInput}
               type="text"
               value={currentBoardName}
               onChange={e => setCurrentBoardName(e.target.value)}
               onKeyDown={onRename}
-              className="overflow inline h-6 w-auto max-w-[150px] -translate-x-1 transform border-none bg-transparent outline-none ring-0 focus:border-none focus:outline-none focus:ring-0"
+              className="overflow inline h-6 w-auto max-w-[150px] -translate-x-1 transform border-none bg-transparent pl-1 outline-none ring-0 focus:border-none focus:outline-none focus:ring-0"
             />
           </span>
         ) : (

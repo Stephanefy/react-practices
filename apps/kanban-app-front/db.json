@@ -5,140 +5,9 @@
       "name": "Platform Launch",
       "columns": [
         {
-          "id": "col-platform-launch-done",
-          "name": "Done",
-          "tasks": [
-            {
-              "id": "task-12",
-              "order": 2,
-              "title": "Create wireframe prototype",
-              "description": "Create a greyscale clickable wireframe prototype to test our assumptions so far.",
-              "status": "Done",
-              "columnCategory": "Done",
-              "subtasks": [
-                {
-                  "id": "subtask-12-1",
-                  "title": "Create clickable wireframe prototype in Balsamiq",
-                  "isCompleted": true
-                }
-              ]
-            },
-            {
-              "id": "task-13",
-              "order": 3,
-              "title": "Review results of usability tests and iterate",
-              "description": "Keep iterating through the subtasks until we're clear on the core concepts for the app.",
-              "status": "Done",
-              "columnCategory": "Done",
-              "subtasks": [
-                {
-                  "id": "subtask-13-1",
-                  "title": "Meet to review notes from previous tests and plan changes",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-13-2",
-                  "title": "Make changes to paper prototypes",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-13-3",
-                  "title": "Conduct 5 usability tests",
-                  "isCompleted": true
-                }
-              ]
-            },
-            {
-              "id": "task-14",
-              "order": 4,
-              "title": "Create paper prototypes and conduct 10 usability tests with potential customers",
-              "description": "",
-              "status": "Done",
-              "columnCategory": "Done",
-              "subtasks": [
-                {
-                  "id": "subtask-14-1",
-                  "title": "Create paper prototypes for version one",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-14-2",
-                  "title": "Complete 10 usability tests",
-                  "isCompleted": true
-                }
-              ]
-            },
-            {
-              "id": "task-17",
-              "order": 7,
-              "title": "Research the market",
-              "description": "We need to get a solid overview of the market to ensure we have up-to-date estimates of market size and demand.",
-              "status": "Done",
-              "columnCategory": "Done",
-              "subtasks": [
-                {
-                  "id": "subtask-17-1",
-                  "title": "Write up research analysis",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-17-2",
-                  "title": "Calculate TAM",
-                  "isCompleted": true
-                }
-              ]
-            }
-          ]
-        },
-        {
           "id": "col-platform-launch-test",
           "name": "Test",
           "tasks": [
-            {
-              "id": "task-5",
-              "order": 1,
-              "title": "Design settings and search pages",
-              "description": "",
-              "status": "Doing",
-              "columnCategory": "Doing",
-              "subtasks": [
-                {
-                  "id": "subtask-5-1",
-                  "title": "Settings - Account page",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-5-2",
-                  "title": "Settings - Billing page",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-5-3",
-                  "title": "Search page",
-                  "isCompleted": false
-                }
-              ]
-            },
-            {
-              "id": "task-3",
-              "order": 3,
-              "title": "Build settings UI",
-              "description": "",
-              "status": "Todo",
-              "columnCategory": "Todo",
-              "subtasks": [
-                {
-                  "id": "subtask-3-1",
-                  "title": "Account page",
-                  "isCompleted": false
-                },
-                {
-                  "id": "subtask-3-2",
-                  "title": "Billing page",
-                  "isCompleted": false
-                }
-              ]
-            },
             {
               "id": "task-10",
               "order": 6,
@@ -183,6 +52,31 @@
                   "isCompleted": false
                 }
               ]
+            },
+            {
+              "id": "task-13",
+              "order": 3,
+              "title": "Review results of usability tests and iterate",
+              "description": "Keep iterating through the subtasks until we're clear on the core concepts for the app.",
+              "status": "Done",
+              "columnCategory": "Done",
+              "subtasks": [
+                {
+                  "id": "subtask-13-1",
+                  "title": "Meet to review notes from previous tests and plan changes",
+                  "isCompleted": true
+                },
+                {
+                  "id": "subtask-13-2",
+                  "title": "Make changes to paper prototypes",
+                  "isCompleted": true
+                },
+                {
+                  "id": "subtask-13-3",
+                  "title": "Conduct 5 usability tests",
+                  "isCompleted": true
+                }
+              ]
             }
           ]
         },
@@ -190,26 +84,6 @@
           "id": "col-platform-launch-doing",
           "name": "Doing",
           "tasks": [
-            {
-              "id": "task-16",
-              "order": 6,
-              "title": "Competitor analysis",
-              "description": "",
-              "status": "Done",
-              "columnCategory": "Done",
-              "subtasks": [
-                {
-                  "id": "subtask-16-1",
-                  "title": "Find direct and indirect competitors",
-                  "isCompleted": true
-                },
-                {
-                  "id": "subtask-16-2",
-                  "title": "SWOT analysis for each competitor",
-                  "isCompleted": true
-                }
-              ]
-            },
             {
               "id": "task-18",
               "order": 8,
@@ -271,27 +145,42 @@
               ]
             },
             {
-              "id": "task-7",
+              "id": "task-3",
               "order": 3,
-              "title": "Design onboarding flow",
+              "title": "Build settings UI",
               "description": "",
-              "status": "Doing",
-              "columnCategory": "Doing",
+              "status": "Todo",
+              "columnCategory": "Todo",
               "subtasks": [
                 {
-                  "id": "subtask-7-1",
-                  "title": "Sign up page",
+                  "id": "subtask-3-1",
+                  "title": "Account page",
+                  "isCompleted": false
+                },
+                {
+                  "id": "subtask-3-2",
+                  "title": "Billing page",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "id": "task-16",
+              "order": 6,
+              "title": "Competitor analysis",
+              "description": "",
+              "status": "Done",
+              "columnCategory": "Done",
+              "subtasks": [
+                {
+                  "id": "subtask-16-1",
+                  "title": "Find direct and indirect competitors",
                   "isCompleted": true
                 },
                 {
-                  "id": "subtask-7-2",
-                  "title": "Sign in page",
-                  "isCompleted": false
-                },
-                {
-                  "id": "subtask-7-3",
-                  "title": "Welcome page",
-                  "isCompleted": false
+                  "id": "subtask-16-2",
+                  "title": "SWOT analysis for each competitor",
+                  "isCompleted": true
                 }
               ]
             }
@@ -355,6 +244,117 @@
               "subtasks": [
                 {
                   "id": "subtask-2-1",
+                  "title": "Search page",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "id": "task-7",
+              "order": 3,
+              "title": "Design onboarding flow",
+              "description": "",
+              "status": "Doing",
+              "columnCategory": "Doing",
+              "subtasks": [
+                {
+                  "id": "subtask-7-1",
+                  "title": "Sign up page",
+                  "isCompleted": true
+                },
+                {
+                  "id": "subtask-7-2",
+                  "title": "Sign in page",
+                  "isCompleted": false
+                },
+                {
+                  "id": "subtask-7-3",
+                  "title": "Welcome page",
+                  "isCompleted": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "col-platform-launch-done",
+          "name": "Done",
+          "tasks": [
+            {
+              "id": "task-12",
+              "order": 2,
+              "title": "Create wireframe prototype",
+              "description": "Create a greyscale clickable wireframe prototype to test our assumptions so far.",
+              "status": "Done",
+              "columnCategory": "Done",
+              "subtasks": [
+                {
+                  "id": "subtask-12-1",
+                  "title": "Create clickable wireframe prototype in Balsamiq",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "id": "task-14",
+              "order": 4,
+              "title": "Create paper prototypes and conduct 10 usability tests with potential customers",
+              "description": "",
+              "status": "Done",
+              "columnCategory": "Done",
+              "subtasks": [
+                {
+                  "id": "subtask-14-1",
+                  "title": "Create paper prototypes for version one",
+                  "isCompleted": true
+                },
+                {
+                  "id": "subtask-14-2",
+                  "title": "Complete 10 usability tests",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "id": "task-17",
+              "order": 7,
+              "title": "Research the market",
+              "description": "We need to get a solid overview of the market to ensure we have up-to-date estimates of market size and demand.",
+              "status": "Done",
+              "columnCategory": "Done",
+              "subtasks": [
+                {
+                  "id": "subtask-17-1",
+                  "title": "Write up research analysis",
+                  "isCompleted": true
+                },
+                {
+                  "id": "subtask-17-2",
+                  "title": "Calculate TAM",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "id": "task-5",
+              "order": 1,
+              "title": "Design settings and search pages",
+              "description": "",
+              "status": "Doing",
+              "columnCategory": "Doing",
+              "subtasks": [
+                {
+                  "id": "subtask-5-1",
+                  "title": "Settings - Account page",
+                  "isCompleted": true
+                },
+                {
+                  "id": "subtask-5-2",
+                  "title": "Settings - Billing page",
+                  "isCompleted": true
+                },
+                {
+                  "id": "subtask-5-3",
                   "title": "Search page",
                   "isCompleted": false
                 }
