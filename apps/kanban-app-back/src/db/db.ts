@@ -1,7 +1,4 @@
-import { SQL } from "bun";
+import { drizzle } from "drizzle-orm/node-postgres";
+import "dotenv/config";
 
-const db = new SQL({
-  url: process.env.DATABASE_URL,
-});
-
-console.log(db);
+export const db = drizzle(process.env.DATABASE_URL!);

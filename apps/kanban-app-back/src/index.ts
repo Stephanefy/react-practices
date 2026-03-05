@@ -4,8 +4,7 @@ import { boards, columns, tasks } from "./db/schema";
 import type { BunRequest } from "bun";
 import { and, eq } from "drizzle-orm";
 import type { Task } from "../types/db/domain";
-
-const db = drizzle(process.env.DATABASE_URL!);
+import { db } from "./db/db";
 
 const server = Bun.serve({
   port: 8080,
