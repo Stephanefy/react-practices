@@ -2,6 +2,7 @@ import "dotenv/config";
 import type { Task } from "../types/db/domain";
 import path from "path";
 import bun from "bun";
+import { sql } from "drizzle-orm";
 import { boards, columns, subtasks, tasks } from "../src/db/schema";
 import { db } from "../src/db/db";
 
@@ -22,6 +23,11 @@ const main = async () => {
   const file = await bun.file(filePath).json();
   const seedFile = file as SeedFile;
 
+  //Delete all data from the database
+  await db.execute(
+    sql`TRUNCATE boards, columns, tasks, subtasks RESTART IDENTITY CASCADE`,
+  );
+
   for (const board of seedFile.boards) {
     await db.insert(boards).values({
       id: board.id,
@@ -39,11 +45,18 @@ const main = async () => {
           id: taskId,
           name: task.title ?? null,
           columnId: column.id,
+          order: task.order,
+          title: task.title,
+          description: task.description,
+          status: task.status,
+          isCompleted: task.isCompleted,
+          columnCategory: task.columnCategory,
         });
         for (const subtask of task.subtasks ?? []) {
           await db.insert(subtasks).values({
             id: subtask.id ?? crypto.randomUUID(),
             name: subtask.title,
+            isCompleted: subtask.isCompleted,
             taskId,
           });
         }

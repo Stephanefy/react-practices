@@ -6,20 +6,53 @@ import { and, eq } from "drizzle-orm";
 import type { Task } from "../types/db/domain";
 import { db } from "./db/db";
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+function corsJson(data: unknown) {
+  return Response.json(data, {
+    headers: corsHeaders,
+  });
+}
+
 const server = Bun.serve({
   port: 8080,
+  async fetch(req: Request) {
+    if (req.method === "OPTIONS") {
+      return new Response(null, { status: 204, headers: corsHeaders });
+    }
+    return new Response(JSON.stringify({ message: "Hello from Bun" }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  },
   routes: {
     "/api/boards": {
       GET: async () => {
-        const boardsData = await db.select().from(boards);
-        return Response.json(boardsData);
+        const boardsData = await db.query.boards.findMany({
+          with: {
+            columns: {
+              with: {
+                tasks: {
+                  with: {
+                    subtasks: true,
+                  },
+                },
+              },
+            },
+          },
+        });
+
+        return corsJson(boardsData);
       },
       POST: async (req: Request) => {
         const body = await req.json();
         const board = await db
           .insert(boards)
           .values(body as { id: string; name: string });
-        return Response.json(board);
+        return corsJson(board);
       },
     },
     "/api/boards/:id": {
@@ -29,7 +62,7 @@ const server = Bun.serve({
           .select()
           .from(boards)
           .where(eq(boards.id, boardId));
-        return Response.json(board);
+        return corsJson(board);
       },
       PUT: async (req: BunRequest) => {
         const boardId = req.params.id as string;
@@ -38,25 +71,25 @@ const server = Bun.serve({
           .update(boards)
           .set(body as { name: string })
           .where(eq(boards.id, boardId));
-        return Response.json(board);
+        return corsJson(board);
       },
       DELETE: async (req: BunRequest) => {
         const boardId = req.params.id as string;
         const board = await db.delete(boards).where(eq(boards.id, boardId));
-        return Response.json(board);
+        return corsJson(board);
       },
     },
     "/api/boards/:id/columns": {
       GET: async () => {
         const columnsData = await db.select().from(columns);
-        return Response.json(columnsData);
+        return corsJson(columnsData);
       },
       POST: async (req: Request) => {
         const body = await req.json();
         const column = await db
           .insert(columns)
           .values(body as { id: string; name: string; boardId: string });
-        return Response.json(column);
+        return corsJson(column);
       },
     },
     "/api/boards/:id/columns/:columnId": {
@@ -67,7 +100,7 @@ const server = Bun.serve({
           .select()
           .from(columns)
           .where(and(eq(columns.id, columnId), eq(columns.boardId, boardId)));
-        return Response.json(column);
+        return corsJson(column);
       },
       PUT: async (req: BunRequest) => {
         const boardId = req.params.id as string;
@@ -77,7 +110,7 @@ const server = Bun.serve({
           .update(columns)
           .set(body as { name: string })
           .where(and(eq(columns.id, columnId), eq(columns.boardId, boardId)));
-        return Response.json(column);
+        return corsJson(column);
       },
       DELETE: async (req: BunRequest) => {
         const boardId = req.params.id as string;
@@ -85,7 +118,7 @@ const server = Bun.serve({
         const column = await db
           .delete(columns)
           .where(and(eq(columns.id, columnId), eq(columns.boardId, boardId)));
-        return Response.json(column);
+        return corsJson(column);
       },
     },
     "/api/boards/:id/columns/:columnId/tasks": {
@@ -96,14 +129,14 @@ const server = Bun.serve({
           .select()
           .from(tasks)
           .where(and(eq(tasks.columnId, columnId), eq(columns.id, columnId)));
-        return Response.json(tasksData);
+        return corsJson(tasksData);
       },
       POST: async (req: Request) => {
         const body = await req.json();
         const task = await db
           .insert(tasks)
           .values(body as { id: string; name: string; columnId: string });
-        return Response.json(task);
+        return corsJson(task);
       },
     },
     "/api/boards/:id/columns/:columnId/tasks/:taskId": {
@@ -115,7 +148,7 @@ const server = Bun.serve({
           .select()
           .from(tasks)
           .where(and(eq(tasks.id, taskId), eq(tasks.columnId, columnId)));
-        return Response.json(task);
+        return corsJson(task);
       },
       PUT: async (req: BunRequest) => {
         const boardId = req.params.id as string;
@@ -126,7 +159,7 @@ const server = Bun.serve({
           .update(tasks)
           .set(body as { name: string })
           .where(and(eq(tasks.id, taskId), eq(tasks.columnId, columnId)));
-        return Response.json(task);
+        return corsJson(task);
       },
       DELETE: async (req: BunRequest) => {
         const boardId = req.params.id as string;
@@ -135,16 +168,13 @@ const server = Bun.serve({
         const task = await db
           .delete(tasks)
           .where(and(eq(tasks.id, taskId), eq(tasks.columnId, columnId)));
-        return Response.json(task);
+        return corsJson(task);
       },
     },
   },
 
   // (optional) fallback for unmatched routes:
   // Required if Bun's version < 1.2.3
-  fetch(req) {
-    return new Response("Not Found", { status: 404 });
-  },
 });
 
 console.log(`Server running at ${server.url}`);

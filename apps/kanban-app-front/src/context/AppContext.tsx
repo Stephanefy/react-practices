@@ -4,11 +4,12 @@ import { getBoards } from '../services/boardServices';
 import { type Board, type Column, type Task } from '../types';
 import { deleteTaskFromColumn } from '../api/tasks/tasks';
 import { updateColumn } from '../api/columns/columns';
+import { getBoardWithColumnsTasksSubtasks } from '../api/boards/boards';
 
 export async function getInitialBoards() {
-  const data = await getBoards();
+  const data = await getBoardWithColumnsTasksSubtasks();
 
-  return data.map((board, boardIndex) => ({
+  return data.map((board: Board) => ({
     ...board,
     columns: board.columns?.map((column: Column, columnIndex: number) => ({
       ...column,
